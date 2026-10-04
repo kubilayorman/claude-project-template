@@ -1,0 +1,98 @@
+# /feature describe
+
+## When this runs
+
+Invoked as `/feature describe "<prompt>"` — the text after `describe` is
+the feature request, e.g. "issue #12 — let users reset their password".
+
+## Start from the latest `main`
+
+Run `git status`. If you're not on `main`, stop and ask the user what to
+do. Otherwise show `git pull --ff-only` and wait for a go-ahead, so the
+spec is planned against the team's latest code, including any PR merged
+since the last pull. If the pull fails, stop and point the user to
+*Troubleshooting* in `context/project-git-workflow.md`.
+
+## Before drafting anything, read
+
+1. `CLAUDE.md` and `context/ai-interaction.md` — working rules.
+2. The design docs `CLAUDE.md` lists under *Source of truth* — a
+   snapshot of the domain model, design, naming, and what's planned.
+   `context/Project Overview/` for orientation, if useful. Both can lag;
+   the code is always the source of truth.
+3. The GitHub issue, if the prompt names one. Check it against the code:
+   fields, paths, commands or config keys that don't match the code are
+   probably outdated issue text, not a design change.
+4. The relevant source and test files, plus the migrations folder from
+   `CLAUDE.md` if the feature touches the database — so the spec fits
+   what already exists instead of reinventing it.
+
+Skip re-reading files already read earlier in this same conversation.
+
+## Steps
+
+1. **Clarify first.** If the prompt leaves real decisions open (data
+   model fields, commands, endpoints or screens, config keys, which part
+   of the architecture it belongs to, whether it needs a schema change),
+   ask before drafting. If the issue and the design docs disagree and
+   the code doesn't settle it, ask. Ask only what actually
+   changes the spec — no padding.
+2. **Name the feature.** If the prompt names an issue, the feature name
+   is the issue title (`gh issue view N`). Otherwise pick the most
+   fitting short name from the prompt; if none is clear, ask the user.
+   The PR title is built from this name.
+3. **Draft the spec** and save it to `context/<feature-name>-spec.md`,
+   where `<feature-name>` is a short kebab-case slug built from the
+   feature name. If the prompt names an issue, prefix the slug with the
+   issue number (at least two digits, e.g. `07`, `12`, `123`) so spec, branch, and PR match (e.g.
+   `12-password-reset`). The file must contain the three header lines
+   followed by exactly these three sections, in this order, and nothing
+   else:
+
+   ```markdown
+   **Feature name:** <feature name>
+   **Issue:** <#N, or "none">
+   **Status:** New
+
+   # Feature functional description
+
+   # Feature technical requirements
+
+   # Feature references and important notes
+   ```
+
+   - **Status** — always `New` here. `/feature finalize` changes it to
+     `PR created`.
+   - **Functional description** — what the feature does and what the
+     user sees/does, plain sentences, no implementation detail. For
+     example: the page, endpoint or command they use, and the data that
+     gets saved. Always end it with a **How to see it working:** line:
+     the steps to run and what the result should look like.
+   - **Technical requirements** — concrete, bullet points, not prose.
+     For example: files to create/edit, functions and signatures,
+     business logic, model/schema changes and whether a migration is
+     needed, commands/endpoints, config keys, dependencies to install,
+     tests to add (using the project's existing test fixtures and
+     conventions), any new technical debt the feature knowingly
+     introduces.
+   - **References and important notes** — for example: existing
+     code/patterns to reuse or match, test fixtures to reuse, any
+     issue-vs-docs mismatch and which side the spec follows, where the
+     feature goes against the design docs or the phase plan, open
+     questions.
+   - The lists above are guidelines for what to cover, not a checklist —
+     include what applies to this feature, skip what doesn't. The
+     header lines and the **How to see it working:** line are always
+     required.
+   - Keep it to the point: no marketing language, no filler, nothing
+     obvious from the code restated. Written for an agent to execute, not
+     a human to be sold on.
+   - Don't invent scope beyond the prompt — unresolved ambiguity goes
+     under references as an open question, not a silent decision.
+4. **Hand it off.** Tell the user the file was saved, give a one-line
+   summary of what's in it, and tell them to review/edit it, then run
+   `/feature implement @context/<feature-name>-spec.md` when ready, with
+   the actual file name filled in.
+5. **Stop.** Do not implement anything in this same turn, even if the
+   user immediately says it looks good. Implementation only starts from a
+   separate `/feature implement` invocation.

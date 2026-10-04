@@ -1,0 +1,239 @@
+---
+name: setup
+description: Slash command only — /setup — prepares a project that this template was just copied into. The project's technical files must already exist. It interviews the user, checks the answers against the code, and writes docs/architecture.md, docs/project-phase-plan.md and CLAUDE.md (from claude-template.md). Do not trigger from plain conversation without /setup.
+---
+
+# setup
+
+## What this does
+
+Setup writes a well-written `CLAUDE.md` (the project's instruction file
+for Claude) and the design docs it builds on. It doesn't create the
+project's technical files: that is scaffolding, and you do it yourself
+first.
+
+**Before you run it:**
+
+1. Scaffold the project, e.g. with a command from
+   `project-type/scaffolding.md`, or start from a project that already
+   has code.
+2. Copy the *contents* of the template folder (including the hidden
+   `.claude/` folder) into the project root.
+3. Run `/setup` once.
+
+**What it does:**
+
+1. Checks that the project has its technical files, and stops if it
+   doesn't.
+2. Looks at the project's files to learn what it is and how it runs,
+   including any `CLAUDE.md` or design docs the project already has.
+3. Asks you about the app in three short rounds: what it does, its data
+   and rules, and its shape and scope. It checks your answers against the
+   code and points out where they differ. Then it shows you a summary to
+   confirm.
+4. Writes `docs/architecture.md`, a snapshot of the design used for
+   orientation, and `docs/project-phase-plan.md`, the high-level
+   blueprint of what gets built in which phase.
+5. Writes `CLAUDE.md`, using `claude-template.md` as its layout. An old
+   `CLAUDE.md` is replaced, but its useful information is carried over.
+6. Tells you what it did and what to do next.
+
+It doesn't install, run or commit anything.
+
+## Steps
+
+Do these in order. Write every message to the user in plain language:
+no jargon, or explain it in a few words when it can't be avoided.
+
+### 1. Check the template is there
+
+If `claude-template.md` doesn't exist in the project root, tell the user
+the template folder wasn't copied in fully, and stop.
+
+### 2. Check the project has its technical files
+
+List the project root, including hidden files. If it holds nothing but:
+
+- template files: `.claude/`, `context/`, `docs/`, `project-type/`,
+  `claude-template.md`
+- harmless extras: `.git/`, `.DS_Store`, `README.md`, `.gitignore`, `LICENSE`
+
+then the project hasn't been scaffolded yet. Tell the user to scaffold it
+first: run the scaffold command for their project type from
+`project-type/scaffolding.md` (it creates a new project folder), copy the
+template into that folder, and run `/setup` there. Then stop.
+
+### 3. Look at the project
+
+Read the files that show what the project is and how it runs. Start with
+the existing `CLAUDE.md`, `docs/architecture.md` and
+`docs/project-phase-plan.md`, if there are any, then for example:
+`README.md`, dependency files (`package.json`, `pyproject.toml`,
+`requirements.txt`, `Gemfile`, `go.mod`, …), CI settings
+(`.github/workflows/`), `docker-compose.yml`, the database schema and
+migration folders, the main source folders, `.gitignore`. Don't change
+anything yet.
+
+Note how much the project already does beyond its starter files. This
+decides how much weight the code carries in the interview.
+
+### 4. Interview the user
+
+The goal is to learn four things well enough to write
+`docs/architecture.md` and `docs/project-phase-plan.md`: the business
+logic, the data model, the high-level architecture, and the phases.
+
+Ask the three rounds below, one round per message, and wait for the
+answers before the next round. Use earlier answers to make later questions
+concrete (e.g. name the entities you heard about in round 1). The user
+can say "skip" to any question; note skipped questions for *Open
+questions*.
+
+**Use the code.** Offer a suggested answer wherever the code or the
+existing docs show one, so the user can reply "yes".
+
+- When the project is mostly starter files, the code shows little about
+  the business, so the answers are the main source for the design.
+- When the project already has real work in it, check each answer
+  against the code. Where they differ, say what the code shows and ask
+  which is right. If the code is right, use it. If the answer describes
+  what is intended but not built yet, use the answer and list the
+  difference under *Open questions*. Never settle a difference silently.
+
+**Round 1: The app**
+
+1. What's the project called, and what will the app do? What problem does
+   it solve?
+2. Who will use it? List the types of users (e.g. customer, staff, admin),
+   what each one can do, and whether they need to sign in.
+3. Walk through the most important thing a user does, step by step, from
+   start to finish.
+
+**Round 2: Data and rules**
+
+4. What things does the app keep track of, and how are they connected?
+   (e.g. a customer has one or more reservations, and each reservation is
+   for one table) Mention the key details of each, such as a
+   reservation's date, time and party size.
+5. What rules does the app follow? Think of limits, statuses, prices,
+   deadlines and who may do what. (e.g. a reservation can be cancelled up
+   to 24 hours before)
+6. Does the app store anything sensitive, such as personal details,
+   payments or health data?
+
+**Round 3: Shape and scope**
+
+7. Where will people use it: in a web browser, as a phone app, both, or
+   only as an API or script?
+8. Does it need outside services, such as payments, email or SMS, maps,
+   AI, or sign-in with Google?
+9. What phase is the project in now, and what must that phase include?
+   What comes after it, and what can wait for later? (For a project with
+   real work in it, suggest a first phase that sums up what's built.)
+
+Ask follow-up questions only where an answer leaves the data model or the
+core flow unclear. Keep them few.
+
+### 5. Play back and confirm
+
+Show the user a short summary and ask them to confirm or correct it:
+
+- the entities and how they connect, as a Mermaid `erDiagram`
+- the core flow as numbered steps
+- the tech stack, as found in the project's files
+- the phases: what the current phase includes, and what comes in which
+  later phase
+- any differences between the answers and the code, and how each was
+  settled
+
+Don't write anything until the user confirms. Apply corrections and play
+back again if they change the data model or the phases.
+
+### 6. Write the design docs
+
+Create two files from the templates next to this one. Fill in every
+section from the confirmed answers and the code. Put anything skipped or
+still unclear under *Open questions* instead of guessing. Remove the
+template comments, then check that no `{{` or `}}` is left.
+
+- `docs/architecture.md` from `architecture-template.md`.
+- `docs/project-phase-plan.md` from `phase-plan-template.md`. Keep it a
+  high-level blueprint: goals and scope per phase, no task lists.
+
+If either file already exists, ask before replacing it, and carry over
+anything in it that is still true.
+
+### 7. Fill in CLAUDE.md
+
+Go through every `{{placeholder}}` in `claude-template.md`. Fill in each
+one the files or the confirmed answers answer clearly. Use real commands
+and paths from the project. Don't guess. Sum up the *Overview* in
+`docs/architecture.md` in one or two sentences for the description, and
+take the stack from the project's files.
+
+If there is an old `CLAUDE.md`:
+
+- Use its information to fill in placeholders.
+- Keep any rule or note from it that has no place in the template. Put it
+  in the section where it fits best, or under *Other guidance*.
+- If it disagrees with the project's files (e.g. a command that no longer
+  exists), trust the files and note the difference for step 9.
+
+Put every placeholder you couldn't fill into **one** short numbered list
+of questions. Give a suggested answer wherever you have one, so the user
+can reply "yes". Remove a line when it doesn't apply to the project, or
+the user doesn't know the answer; note unanswered ones for step 9.
+
+Remove a whole section only when it doesn't apply to the project (e.g.
+*Database migrations* when there is no database). Never remove a section
+because an answer is missing: other files refer to the headings by name.
+If a kept section ends up with no lines, write "Not set yet." under its
+heading and note it for step 9.
+
+Always keep the *Source of truth* section, naming `docs/architecture.md`
+and `docs/project-phase-plan.md`.
+
+### 8. Write CLAUDE.md
+
+Save `CLAUDE.md` in the project root, replacing the old one if there is
+one. Remove every template comment, including the "how to use this
+file" comment at the top. Then check that no `{{`, `}}` or `<!--` is
+left anywhere in the file.
+
+### 9. Report, then stop
+
+Tell the user, in a short list:
+
+1. That `CLAUDE.md` is ready, and what it now says the project is.
+2. That `docs/architecture.md` holds the design and
+   `docs/project-phase-plan.md` the phases, and which phase is current.
+   They are a snapshot as of today. The code is the source of truth and
+   will move ahead of them as features are built.
+3. Any differences between the answers and the code that were left under
+   *Open questions*.
+4. If there was an old `CLAUDE.md`: what was carried over, and anything
+   left out because the project's files showed it was out of date.
+5. Which sections were removed, and which questions were left
+   unanswered, so they can add them later.
+6. That `claude-template.md` isn't needed any more: delete it now, before
+   committing. Don't delete it yourself. `project-type/` stays: it's the
+   developer's reference for scaffolding.
+7. What to do next:
+   - After deleting `claude-template.md`, commit everything before
+     anything else; `/feature implement` stops if anything besides a
+     spec is uncommitted. If the project
+     isn't in a GitHub repository yet, commit everything on `main` (the
+     exception in Team rule 1 of `context/project-git-workflow.md`), then
+     create the repository on GitHub and push `main`. Otherwise commit
+     everything on a
+     new branch (e.g. `setup`) and open a PR, following Part 1 of
+     `context/project-git-workflow.md`. Wait until a teammate has merged
+     it, then `git checkout main` and `git pull --ff-only`: until then
+     `main` doesn't have the skills or `CLAUDE.md`.
+   - `/feature describe "<what you want>"` starts a new feature.
+
+<!--
+Adding setup steps later: add each one as a new numbered step before
+"Report, then stop", with a heading that says in plain words what it
+does. Add a matching line to "What this does" at the top.
+-->

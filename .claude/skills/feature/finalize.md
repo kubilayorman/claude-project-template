@@ -1,0 +1,103 @@
+# /feature finalize
+
+## When this runs
+
+Invoked as `/feature finalize`, after `/feature implement` has finished
+and the user has checked the feature works. Gets the feature branch
+ready and opens a pull request for a teammate to approve, following
+`context/project-git-workflow.md` (Part 1, steps 4–12). Branch is
+named as `CLAUDE.md` says (`NN-short-slug`, no `NN-` without an issue).
+
+It runs once per feature. The developer's workflow ends when this
+command opens the PR. Approval and merging happen on GitHub, by the
+reviewer. This command switches back to `main` at the end; the next
+`/feature describe` pulls the latest `main` from GitHub first.
+
+Only if the reviewer requests changes does the branch get revisited.
+That is an exception, not part of this command: it follows Part 2
+(steps 13–17) of `context/project-git-workflow.md`. Don't run
+`/feature finalize` again for it.
+
+## Before running anything
+
+Check the current branch. If it is `main`, stop: there is no feature
+branch to finalize. The spec is `context/<current-branch>-spec.md`. If
+it doesn't exist, stop and ask. If its **Status** is `PR created`, or
+`gh pr view` shows a PR already exists for this branch, stop and point
+the user to Part 2 of `context/project-git-workflow.md`.
+
+Read `CLAUDE.md`, `context/ai-interaction.md` and
+`context/project-git-workflow.md` if not already fresh in context. Every
+git and `gh` command below follows the same rule: show the exact command,
+wait for a go-ahead, one action at a time. Never push to `main`, never
+force-push. No commit message and no PR title or body may credit Claude
+or any AI tool: no `Co-Authored-By` line, no "Generated with Claude Code"
+line.
+
+Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
+*Database migrations* section. Skip them otherwise.
+
+## Steps, in this order
+
+1. **Commit everything outstanding.** Run `git status` on the feature
+   branch. Read the file list before staging: nothing from *Never
+   commit* in `CLAUDE.md`, no other junk. Then `git add -A` and the exact
+   commit command. Don't continue until `git status` says the tree is
+   clean.
+2. **Sync with `main`.** `git fetch`, then `git merge origin/main`. If
+   there are conflicts, stop and explain them file by file; the user
+   decides, or runs `git merge --abort`.
+
+   *(migrations only)* After the merge, run the single-head check from
+   `CLAUDE.md`. Two latest migrations means both branches added one. To
+   fix it, explain the problem and wait for a go-ahead, then:
+   - If the dev DB already ran this branch's migration, roll back to the
+     migration before it first, by naming that migration (the
+     roll-back-to command from `CLAUDE.md`), so the DB doesn't hold a
+     migration that's about to move. "Roll back one" doesn't work here:
+     with two latest migrations, the tool can't tell which one is meant.
+   - Make this branch's migration follow the latest one from `main`
+     (e.g. its parent/`down_revision`), and commit.
+3. **Run the checks.** Start any local services listed under *Commands*
+   in `CLAUDE.md`. *(migrations only)* Apply all migrations; if the
+   branch adds a migration, roll back one and apply again. Then run every
+   command under *Checks* in `CLAUDE.md`, in order.
+
+   If anything fails, explain the failure in plain language, propose the
+   fix, and wait for a go-ahead. After each fix:
+   - commit it (step 1's rules)
+   - *(migrations only)* if the fix adds or changes a migration, rerun
+     the single-head check from step 2
+   - rerun every check above, not only the one that failed
+
+   Keep iterating until everything passes, however many rounds it
+   takes. Don't continue to step 4 until all checks pass.
+4. **Close the spec.** Change its **Status** line to `PR created`, so it
+   reads as a finished feature, not a new one, and commit it. Don't edit
+   the design docs or `context/Project Overview/`. While still on the
+   branch, compare `git diff origin/main...HEAD` with
+   `docs/architecture.md` and `docs/project-phase-plan.md`, and note any
+   major change for step 8.
+5. **Push.** `git push -u origin <branch>`.
+6. **Open the PR.** Build the title and body, show them in full, and wait
+   for a go-ahead before running `gh pr create`.
+   - **With an issue** (the spec's **Issue** line): get its title with
+     `gh issue view N`. The PR title is `NN — <issue title>`, where `NN`
+     is the number prefix of the branch name (e.g. `07`). The body
+     starts with `Closes #N`.
+   - **Without an issue** (**Issue:** none): the PR title is the
+     *Feature name* line at the top of the spec, and the body has no
+     `Closes` line.
+   - Body sections: *What this adds*, *Verified locally*, *Not in this
+     PR*. *Verified locally* lists the step 3 check results and the
+     spec's **How to see it working:** check the user ran.
+7. **Return to `main`.** Show `git checkout main` and wait for a
+   go-ahead, so the next `/feature describe` starts from `main`.
+8. **Stop.** Give the user the PR link and say it's waiting for a
+   teammate to approve and merge it. If step 4 noted a major change to
+   what `docs/architecture.md` or `docs/project-phase-plan.md` describe (data model, architecture, tech stack,
+   phase scope), add a short, to-the-point summary of it. Otherwise
+   leave it out. Only if the reviewer requests
+   changes: those go on this same branch, by hand, following Part 2 of
+   `context/project-git-workflow.md`. Don't merge, and don't delete the
+   branch.
