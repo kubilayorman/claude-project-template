@@ -18,7 +18,9 @@ first.
    `project-type/scaffolding.md`, or start from a project that already
    has code.
 2. Copy the *contents* of the template folder (including the hidden
-   `.claude/` folder) into the project root.
+   `.claude/` folder) into the project root. Don't copy `.gitignore`,
+   `README.md` or the hidden `.git/` folder: they belong to the
+   template repo and would overwrite the project's own files.
 3. Run `/setup` once.
 
 **What it does:**
