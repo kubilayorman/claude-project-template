@@ -33,7 +33,7 @@ For a plain-language summary of building a feature with the agent, see [Simplifi
 
 ## Team rules
 
-1. **Never commit or push directly to main.** All work happens on a branch. One exception: the commit that adds the template and the `/setup` files, made before the project is on GitHub. Updates to `context/Project Overview/` made with `/project-overview` go through a PR like any other change.
+1. **Never commit or push directly to main.** All work happens on a branch. One exception: the commit that adds the template and the `/setup` files, made before the project is on GitHub. Updates to `claude-context/Project Overview/` made with `/project-overview` go through a PR like any other change.
 2. **One branch per feature.** Your work on a feature is finished when you open its pull request (step 12). After that, you only go back to the branch if the reviewer requests changes (Part 2). Never reuse a branch for another feature. Every new feature starts at step 1 with a new branch.
 3. **Never force-push** (`git push --force` or `-f`).
 4. **Every PR needs approval from a teammate** before it's merged.
@@ -337,7 +337,7 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 - You tell the agent what you want, often by naming a GitHub issue.
 - The agent first gets the latest main version of the project from GitHub, so the plan fits the team's newest work.
 - It reads the project's design documents and the issue, and asks you about anything unclear.
-- It writes a plan for the feature and saves it in the `context` folder.
+- It writes a plan for the feature and saves it in the `claude-context` folder.
 - It stops there. You read the plan and change it if needed.
 
 **2. Build the feature**

@@ -12,7 +12,7 @@ others unless that file says to.
 
 | Command | Action file | What it does |
 |---|---|---|
-| `/feature describe "<prompt>"` | [describe.md](describe.md) | Turns the prompt into a spec file under `context/`. |
+| `/feature describe "<prompt>"` | [describe.md](describe.md) | Turns the prompt into a spec file under `claude-context/`. |
 | `/feature implement @<spec-file>` | [implement.md](implement.md) | Builds the spec file named in the argument. |
 | `/feature finalize` | [finalize.md](finalize.md) | Runs checks, marks the spec done, pushes the branch, and opens a PR for a teammate to approve. |
 
@@ -36,4 +36,4 @@ each one only starts from its own explicit `/feature ...` invocation.
 The developer's workflow ends when `/feature finalize` opens the PR.
 Approval and merging happen on GitHub, by the reviewer. If the reviewer
 requests changes instead, that is not a `/feature` action: it follows
-Part 2 of `context/project-git-workflow.md`.
+Part 2 of `claude-context/project-git-workflow.md`.

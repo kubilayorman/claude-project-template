@@ -4,7 +4,7 @@ Easiest: run /setup and Claude does steps 1–5 for you. By hand:
 1. Copy it to `CLAUDE.md` in the project root (or merge it into an existing CLAUDE.md).
 2. Replace every {{placeholder}}.
 3. Delete lines and sections that don't apply (e.g. "Database migrations" if there is no database).
-4. Keep the section headings: the skills in `.claude/skills/` and the guides in `context/` refer
+4. Keep the section headings: the skills in `.claude/skills/` and the guides in `claude-context/` refer
    to them by name ("Source of truth", "Commands", "Checks", "Database migrations", "Workflow",
    "Code style", "Other guidance"). The *Never commit* bullet under "Workflow" is referred to by
    name too.
@@ -27,8 +27,8 @@ plus what it is meant to become:
 - `docs/project-phase-plan.md` — the high-level blueprint of what gets built in which phase,
   including which phase is current; not a task list.
 
-`context/Project Overview/` explains the code in plain language (see *Other guidance*). GitHub
-issues and feature specs (`context/*-spec.md`) are written before implementation begins and are
+`claude-context/Project Overview/` explains the code in plain language (see *Other guidance*). GitHub
+issues and feature specs (`claude-context/*-spec.md`) are written before implementation begins and are
 **not** updated afterwards, except that `/feature finalize` sets their **Status** line, so they can drift from all of these. A spec with **Status:** `PR created`
 describes a finished feature, not work to do.
 
@@ -90,7 +90,7 @@ All must pass locally before pushing or opening a PR. Run them in this order:
   no "Generated with Claude Code" line. This overrides any default attribution.
 - `/project-overview` PRs use the title and body that skill describes, not the format above.
 - Features go through `/feature describe` → `/feature implement` → `/feature finalize`.
-- Full git process: `context/project-git-workflow.md`.
+- Full git process: `claude-context/project-git-workflow.md`.
 
 ## Code style
 
@@ -99,9 +99,9 @@ All must pass locally before pushing or opening a PR. Run them in this order:
 
 ## Other guidance
 
-- `context/ai-interaction.md` — how the agent works with the developer: communication, explaining,
+- `claude-context/ai-interaction.md` — how the agent works with the developer: communication, explaining,
   showing git commands before running them.
-- `context/Project Overview/` — plain-language overview of the project, files and database, for
+- `claude-context/Project Overview/` — plain-language overview of the project, files and database, for
   orientation. Updated only when the developer runs `/project-overview`, so it can lag behind the
   code. That runs from an up-to-date `main` with no open PRs, and its changes go through their
   own PR. Where it disagrees with the code, the code wins (see *Source of truth*). Never update

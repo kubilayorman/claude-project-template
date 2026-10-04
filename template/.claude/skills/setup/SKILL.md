@@ -14,13 +14,12 @@ first.
 
 **Before you run it:**
 
-1. Scaffold the project, e.g. with a command from
-   `project-type/scaffolding.md`, or start from a project that already
-   has code.
-2. Copy the *contents* of the template folder (including the hidden
-   `.claude/` folder) into the project root. Don't copy `.gitignore`,
-   `README.md` or the hidden `.git/` folder: they belong to the
-   template repo and would overwrite the project's own files.
+1. Scaffold the project, e.g. with a command from `scaffolding.md` in
+   the template repo, or start from a project that already has code.
+2. Install the template: copy the *contents* of the template repo's
+   `template/` folder (including the hidden `.claude/` folder) into the
+   project root, using the install command in the template repo's
+   README.
 3. Run `/setup` once.
 
 **What it does:**
@@ -56,14 +55,14 @@ the template folder wasn't copied in fully, and stop.
 
 List the project root, including hidden files. If it holds nothing but:
 
-- template files: `.claude/`, `context/`, `docs/`, `project-type/`,
-  `claude-template.md`
-- harmless extras: `.git/`, `.DS_Store`, `README.md`, `.gitignore`, `LICENSE`
+- template files: `.claude/`, `claude-context/`, `claude-template.md`
+- harmless extras: `.git/`, `.DS_Store`, `README.md`, `.gitignore`,
+  `LICENSE`, an empty `docs/`
 
 then the project hasn't been scaffolded yet. Tell the user to scaffold it
 first: run the scaffold command for their project type from
-`project-type/scaffolding.md` (it creates a new project folder), copy the
-template into that folder, and run `/setup` there. Then stop.
+`scaffolding.md` in the template repo (it creates a new project folder),
+install the template into that folder, and run `/setup` there. Then stop.
 
 ### 3. Look at the project
 
@@ -218,18 +217,17 @@ Tell the user, in a short list:
 5. Which sections were removed, and which questions were left
    unanswered, so they can add them later.
 6. That `claude-template.md` isn't needed any more: delete it now, before
-   committing. Don't delete it yourself. `project-type/` stays: it's the
-   developer's reference for scaffolding.
+   committing. Don't delete it yourself.
 7. What to do next:
    - After deleting `claude-template.md`, commit everything before
      anything else; `/feature implement` stops if anything besides a
      spec is uncommitted. If the project
      isn't in a GitHub repository yet, commit everything on `main` (the
-     exception in Team rule 1 of `context/project-git-workflow.md`), then
+     exception in Team rule 1 of `claude-context/project-git-workflow.md`), then
      create the repository on GitHub and push `main`. Otherwise commit
      everything on a
      new branch (e.g. `setup`) and open a PR, following Part 1 of
-     `context/project-git-workflow.md`. Wait until a teammate has merged
+     `claude-context/project-git-workflow.md`. Wait until a teammate has merged
      it, then `git checkout main` and `git pull --ff-only`: until then
      `main` doesn't have the skills or `CLAUDE.md`.
    - `/feature describe "<what you want>"` starts a new feature.

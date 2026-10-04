@@ -6,13 +6,13 @@ making changes. "The developer" means the person using the agent.
 ## What this project is
 
 `CLAUDE.md` describes the project, its stack, commands and workflow, and
-lists the design docs. `context/Project Overview/` explains the project,
+lists the design docs. `claude-context/Project Overview/` explains the project,
 its files and its database in plain language; use it for orientation.
 
 The code is always the source of truth (*Source of truth* in
 `CLAUDE.md`). The design docs (`docs/architecture.md`,
 `docs/project-phase-plan.md`) and the Project Overview
-(`context/Project Overview/`) are for orientation. They are not updated
+(`claude-context/Project Overview/`) are for orientation. They are not updated
 during feature work, so the code moves ahead of them. During
 `/feature describe`, clear up with the developer any mismatch between
 the request, the code and these docs that the code doesn't settle, so the spec says what they mean. Once
@@ -73,13 +73,13 @@ This is the general order we work in for any change, small or large:
 5. **Commit.** Only after the developer has approved the exact commit
    command.
 6. **Ship.** Checks, push, and open a PR for a teammate to review, as in
-   `context/project-git-workflow.md`.
+   `claude-context/project-git-workflow.md`.
 
 Anything you notice along the way that isn't part of the current task —
 a bug, a cleanup idea, something to revisit later — mention it to the
 developer instead of fixing it on the spot.
 
-This section is only a summary. `context/project-git-workflow.md` and the
+This section is only a summary. `claude-context/project-git-workflow.md` and the
 `/feature` skill are the source of truth for the workflow; where they
 differ from this section, follow them.
 
@@ -95,10 +95,10 @@ differ from this section, follow them.
 
 ## Git
 
-`context/project-git-workflow.md` is the full process. In short:
+`claude-context/project-git-workflow.md` is the full process. In short:
 
 - Never commit or push to `main`, never force-push. The only exception
-  is the one in Team rule 1 of `context/project-git-workflow.md`.
+  is the one in Team rule 1 of `claude-context/project-git-workflow.md`.
 - Always show the developer the exact git or `gh` command before running
   it, and wait for their go-ahead.
 - Commit messages say what changed, e.g. `billing: retry receipt email on timeout`.

@@ -5,7 +5,7 @@
 
 <!--
 TEMPLATE INSTRUCTIONS
-- This is action 2. It runs after `context/Project Overview/FILE_DESCRIPTIONS.md` has been written or updated in the same run.
+- This is action 2. It runs after `claude-context/Project Overview/FILE_DESCRIPTIONS.md` has been written or updated in the same run.
 - Use FILE_DESCRIPTIONS.md (especially the Business Actions Index) to fill in where each table is created, changed, deleted, and read. Confirm against the code.
 - Follow 00_GENERATION_RULES.md and 01_LANGUAGE_GUIDE.md.
 - Everything inside HTML comments is guidance. Remove it from the final document.

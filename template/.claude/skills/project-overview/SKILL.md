@@ -1,11 +1,11 @@
 ---
 name: project-overview
-description: Slash command only — /project-overview — writes or updates the onboarding docs in `context/Project Overview/` (FILE_DESCRIPTIONS.md, DATABASE_OVERVIEW.md, PROJECT_OVERVIEW.md) for non-technical stakeholders and junior developers, and opens a PR for them. Runs only from an up-to-date `main` with no open PRs. Do not trigger from plain conversation without /project-overview.
+description: Slash command only — /project-overview — writes or updates the onboarding docs in `claude-context/Project Overview/` (FILE_DESCRIPTIONS.md, DATABASE_OVERVIEW.md, PROJECT_OVERVIEW.md) for non-technical stakeholders and junior developers, and opens a PR for them. Runs only from an up-to-date `main` with no open PRs. Do not trigger from plain conversation without /project-overview.
 ---
 
 # Project overview
 
-Brings three linked documents in `context/Project Overview/` up to date. The rules live in the files next
+Brings three linked documents in `claude-context/Project Overview/` up to date. The rules live in the files next
 to this one:
 
 - `00_GENERATION_RULES.md` — outputs, order, update mode, depth, cross-links, metadata. **Read every run.**
@@ -36,7 +36,7 @@ any check below fails, or if the developer declines one of its commands:
 1. `git status`: you are on `main` and the working tree is clean (no uncommitted or untracked
    files, which would include a spec from `/feature describe`).
 2. `git pull --ff-only`: local `main` now matches `main` on GitHub. If it fails, point the user to
-   *Troubleshooting* in `context/project-git-workflow.md`.
+   *Troubleshooting* in `claude-context/project-git-workflow.md`.
 3. `gh pr list`: no open PRs. Every PR must be approved and merged first, so the snapshot
    includes all work in progress.
 
@@ -49,8 +49,8 @@ any check below fails, or if the developer declines one of its commands:
   *Projects Without Code Yet* explains. `docs/project-phase-plan.md` feeds only the *Phases* section of
   `PROJECT_OVERVIEW.md`.
 - Traverse the whole tree fresh each run, excluding `.git`, dependency folders, build output,
-  lockfiles, `context/Project Overview/`, and the template's own folders: `.claude/`, `context/`,
-  `docs/` and `project-type/`. Those are not app code, so they don't get file descriptions.
+  lockfiles, `claude-context/Project Overview/`, and the template's own folders: `.claude/`, `claude-context/`
+  and `docs/`. Those are not app code, so they don't get file descriptions.
   Follow imports out from the entry points.
 - Take the "business entities" for 00's depth rule from the project's own domain model, not the
   templates' customer/order examples.
@@ -78,10 +78,10 @@ documents are written, add any missing links to `DATABASE_OVERVIEW.md#table-*` a
 ## Step 4 — Open a PR
 
 If no document changed, skip this step. A new date alone doesn't count as a change (see 00's Update Mode). Otherwise follow Part 1 of
-`context/project-git-workflow.md`, showing each command and waiting for a go-ahead:
+`claude-context/project-git-workflow.md`, showing each command and waiting for a go-ahead:
 
 1. `git checkout -b project-overview-YYYY-MM-DD` (today's date).
-2. `git add "context/Project Overview/"`, then commit with a message like
+2. `git add "claude-context/Project Overview/"`, then commit with a message like
    `docs: update Project Overview`. Only this folder is committed.
 3. Run the checks in `CLAUDE.md`, then `git push -u origin <branch>`.
 4. `gh pr create` with the title `Project Overview update YYYY-MM-DD` and a body that lists, per
@@ -98,5 +98,5 @@ items still 🛠️ Planned), for the user's information. Don't edit the design 
 End with the PR link and one line: a teammate approves and merges it on GitHub. If no document
 changed, say instead that no PR was needed. No summary, no offers, no follow-up questions.
 
-Other files in `context/Project Overview/` (e.g. `project-overview-YYYY-MM-DD.md`, `db-overview.md`) are
+Other files in `claude-context/Project Overview/` (e.g. `project-overview-YYYY-MM-DD.md`, `db-overview.md`) are
 not managed by this skill: never edit or delete them.

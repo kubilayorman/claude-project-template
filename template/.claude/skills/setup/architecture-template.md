@@ -99,7 +99,7 @@ flowchart LR
 
 | Part | Choice | Why |
 |---|---|---|
-| Project type | {{Section name from project-type/scaffolding.md, or "Other"}} | {{...}} |
+| Project type | {{e.g. Next.js (web app), Python API (FastAPI), Mobile app (Expo / React Native), or "Other"}} | {{...}} |
 | {{Frontend / Backend / Database / Hosting}} | {{...}} | {{...}} |
 
 ## Phases

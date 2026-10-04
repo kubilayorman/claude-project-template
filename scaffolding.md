@@ -2,7 +2,7 @@
 
 > **Reference only, not a workflow file.** This is a reminder sheet for the developer: which commands start a new project, by project type, in the order you run them. Each command has a `#` comment above it explaining what it does.
 >
-> It doesn't define how the project is built, reviewed or shipped. That lives in `CLAUDE.md`, `context/` and `.claude/skills/`. Agents: don't treat this file as a workflow rule, and leave it out of workflow or consistency reviews unless the developer asks about it directly. `/setup` doesn't run anything from it.
+> It doesn't define how the project is built, reviewed or shipped. That lives in `CLAUDE.md`, `claude-context/` and `.claude/skills/`. Agents: don't treat this file as a workflow rule, and leave it out of workflow or consistency reviews unless the developer asks about it directly. `/setup` doesn't run anything from it.
 
 Replace `my-app` with your project name. Install commands assume macOS with [Homebrew](https://brew.sh).
 
@@ -28,7 +28,7 @@ If a command says `command not found`, install it:
 brew install git
 ```
 
-Run the scaffold command **first**, then copy this template into the folder it created and run `/setup`. The order matters: a command like `npx create-next-app my-app` creates the `my-app` folder itself, and stops with an error if that folder already has files in it, such as this template. If the scaffold command didn't create a Git repository, run `git init` in the project folder too.
+Run the scaffold command **first**, then install the template into the folder it created (see the install command in the [README](README.md)) and run `/setup`. The order matters: a command like `npx create-next-app my-app` creates the `my-app` folder itself, and stops with an error if that folder already has files in it, such as this template. If the scaffold command didn't create a Git repository, run `git init` in the project folder too.
 
 `/setup` doesn't scaffold the project for you: it stops if the folder holds only this template. Scaffolding is creating the project's technical files, and `/setup` then writes `CLAUDE.md` and the design docs on top of them.
 

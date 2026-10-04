@@ -13,18 +13,18 @@ Every document must be clear, short, and accurate. All writing follows `01_LANGU
 
 ## Output Files
 
-All output goes in the folder `context/Project Overview/`. This location is fixed and applies every time the skill runs.
+All output goes in the folder `claude-context/Project Overview/`. This location is fixed and applies every time the skill runs.
 
 - If the folder does not exist, create it.
 - Never write the documents anywhere else, even if a `docs/` or similar folder already exists.
-- The folder name contains a space. Quote the path in shell commands: `"context/Project Overview/"`.
+- The folder name contains a space. Quote the path in shell commands: `"claude-context/Project Overview/"`.
 - All three documents sit side by side in this folder, so cross-links between them are plain file names (for example `DATABASE_OVERVIEW.md#table-customers`).
 
 | Order | Action | Output file | Template |
 |---|---|---|---|
-| 1 | `file-descriptions` | `context/Project Overview/FILE_DESCRIPTIONS.md` | `02_TEMPLATE_FILE_DESCRIPTIONS.md` |
-| 2 | `database-overview` | `context/Project Overview/DATABASE_OVERVIEW.md` | `03_TEMPLATE_DATABASE_OVERVIEW.md` |
-| 3 | `project-overview` | `context/Project Overview/PROJECT_OVERVIEW.md` | `04_TEMPLATE_PROJECT_OVERVIEW.md` |
+| 1 | `file-descriptions` | `claude-context/Project Overview/FILE_DESCRIPTIONS.md` | `02_TEMPLATE_FILE_DESCRIPTIONS.md` |
+| 2 | `database-overview` | `claude-context/Project Overview/DATABASE_OVERVIEW.md` | `03_TEMPLATE_DATABASE_OVERVIEW.md` |
+| 3 | `project-overview` | `claude-context/Project Overview/PROJECT_OVERVIEW.md` | `04_TEMPLATE_PROJECT_OVERVIEW.md` |
 
 ## Order and Dependencies
 

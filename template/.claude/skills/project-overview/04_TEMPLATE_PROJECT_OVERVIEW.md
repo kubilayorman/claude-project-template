@@ -5,7 +5,7 @@
 
 <!--
 TEMPLATE INSTRUCTIONS
-- This is action 3. It runs after `context/Project Overview/FILE_DESCRIPTIONS.md` and `context/Project Overview/DATABASE_OVERVIEW.md` have been written or updated in the same run.
+- This is action 3. It runs after `claude-context/Project Overview/FILE_DESCRIPTIONS.md` and `claude-context/Project Overview/DATABASE_OVERVIEW.md` have been written or updated in the same run.
 - Summarize the two earlier documents. Do not repeat their detail; link to it.
 - Flow step numbers follow "Core flow step numbers" in 00_GENERATION_RULES.md.
 - Follow 00_GENERATION_RULES.md and 01_LANGUAGE_GUIDE.md.

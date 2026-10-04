@@ -1,20 +1,43 @@
 # Claude Project Template 🚀
 
-Start every project on the right foot with [Claude Code](https://claude.com/claude-code). Drop this template into a new project and Claude gets clear instructions, solid design docs and a smooth, review-based team workflow from day one.
+Start every project on the right foot with [Claude Code](https://claude.com/claude-code). Add this template to a new project and Claude gets clear instructions, solid design docs and a smooth, review-based team workflow from day one.
 
-## What's inside
+## What gets installed
+
+Everything in [`template/`](template/) is copied into your project's root folder:
 
 - **`claude-template.md`**: the layout for your project's `CLAUDE.md`, so Claude knows exactly how your project works.
 - **`.claude/skills/`**: three slash commands that do the heavy lifting:
   - `/setup` learns about your app through a short interview, then writes `CLAUDE.md`, `docs/architecture.md` and `docs/project-phase-plan.md`.
   - `/feature describe`, `/feature implement` and `/feature finalize` take an idea from spec to finished code to pull request.
   - `/project-overview` writes plain-language docs for non-technical and technical teammates alike, so everyone stays in the loop. 🤝
-- **`context/`**: guidelines for how Claude works, plus a simple git workflow for your team.
-- **`project-type/scaffolding.md`**: ready-to-use commands to start a new project.
+- **`claude-context/`**: guidelines for how Claude works and a simple git workflow for your team. Your feature specs and Project Overview docs live here too.
 
 ## Getting started ✨
 
-1. Scaffold your project (see `project-type/scaffolding.md`).
-2. Copy this folder's contents, including the hidden `.claude/` folder, into your project's root folder. **Don't copy** `.gitignore`, `README.md` or the hidden `.git/` folder, because they belong to this template repo and would overwrite your project's own files.
-3. Open Claude Code and run `/setup`.
-4. Start building with `/feature describe "<your idea>"`.
+**Prerequisites:** [Claude Code](https://claude.com/claude-code), Git, and a scaffolded project. Not scaffolded yet? See [`scaffolding.md`](scaffolding.md).
+
+1. From your project's root folder, install the template:
+
+   ```bash
+   tmp=$(mktemp -d)
+   git clone --depth 1 https://github.com/kubilayorman/claude-project-template.git "$tmp"
+   rsync -a --ignore-existing "$tmp/template/" .
+   rm -rf "$tmp"
+   ```
+
+   Existing files are never overwritten.
+
+2. Open Claude Code and run `/setup`.
+3. Start building with `/feature describe "<your idea>"`.
+
+## Updating
+
+The install command skips files your project already has, so delete the old template files first, then run it again:
+
+```bash
+rm -rf .claude/skills/setup .claude/skills/feature .claude/skills/project-overview
+rm -f claude-context/ai-interaction.md claude-context/project-git-workflow.md
+```
+
+Your feature specs and Project Overview docs are left untouched. Afterwards, delete `claude-template.md` again: only `/setup` needs it.

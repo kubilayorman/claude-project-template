@@ -5,7 +5,7 @@
 Invoked as `/feature finalize`, after `/feature implement` has finished
 and the user has checked the feature works. Gets the feature branch
 ready and opens a pull request for a teammate to approve, following
-`context/project-git-workflow.md` (Part 1, steps 4–12). Branch is
+`claude-context/project-git-workflow.md` (Part 1, steps 4–12). Branch is
 named as `CLAUDE.md` says (`NN-short-slug`, no `NN-` without an issue).
 
 It runs once per feature. The developer's workflow ends when this
@@ -15,19 +15,19 @@ reviewer. This command switches back to `main` at the end; the next
 
 Only if the reviewer requests changes does the branch get revisited.
 That is an exception, not part of this command: it follows Part 2
-(steps 13–17) of `context/project-git-workflow.md`. Don't run
+(steps 13–17) of `claude-context/project-git-workflow.md`. Don't run
 `/feature finalize` again for it.
 
 ## Before running anything
 
 Check the current branch. If it is `main`, stop: there is no feature
-branch to finalize. The spec is `context/<current-branch>-spec.md`. If
+branch to finalize. The spec is `claude-context/<current-branch>-spec.md`. If
 it doesn't exist, stop and ask. If its **Status** is `PR created`, or
 `gh pr view` shows a PR already exists for this branch, stop and point
-the user to Part 2 of `context/project-git-workflow.md`.
+the user to Part 2 of `claude-context/project-git-workflow.md`.
 
-Read `CLAUDE.md`, `context/ai-interaction.md` and
-`context/project-git-workflow.md` if not already fresh in context. Every
+Read `CLAUDE.md`, `claude-context/ai-interaction.md` and
+`claude-context/project-git-workflow.md` if not already fresh in context. Every
 git and `gh` command below follows the same rule: show the exact command,
 wait for a go-ahead, one action at a time. Never push to `main`, never
 force-push. No commit message and no PR title or body may credit Claude
@@ -74,7 +74,7 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
    takes. Don't continue to step 4 until all checks pass.
 4. **Close the spec.** Change its **Status** line to `PR created`, so it
    reads as a finished feature, not a new one, and commit it. Don't edit
-   the design docs or `context/Project Overview/`. While still on the
+   the design docs or `claude-context/Project Overview/`. While still on the
    branch, compare `git diff origin/main...HEAD` with
    `docs/architecture.md` and `docs/project-phase-plan.md`, and note any
    major change for step 8.
@@ -99,5 +99,5 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
    phase scope), add a short, to-the-point summary of it. Otherwise
    leave it out. Only if the reviewer requests
    changes: those go on this same branch, by hand, following Part 2 of
-   `context/project-git-workflow.md`. Don't merge, and don't delete the
+   `claude-context/project-git-workflow.md`. Don't merge, and don't delete the
    branch.
