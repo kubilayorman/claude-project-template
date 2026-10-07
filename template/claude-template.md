@@ -102,6 +102,8 @@ others.
   no "Generated with Claude Code" line. This overrides any default attribution.
 - `/project-overview` PRs use the title and body that skill describes, not the format above.
 - Features go through `/feature describe` → `/feature implement` → `/feature test` → `/feature finalize`.
+  `/feature describe SURF "<prompt>"` runs the feature with fewer approval stops; the default is
+  `VERBOSE` (see *Modes* in the `/feature` skill).
   Only `/feature test` writes or runs tests.
 - Full git process: `claude-context/project-git-workflow.md`.
 

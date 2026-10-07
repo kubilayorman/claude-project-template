@@ -22,12 +22,14 @@ If it doesn't exist, stop and ask. Then look at its **Status**:
 - `PR created` → stop and point the user to Part 2 of
   `claude-context/project-git-workflow.md`.
 
+Read the spec's **Mode** line and state it in one line (e.g. "Mode:
+SURF"). No **Mode** line means `VERBOSE`. See *Modes* in `SKILL.md`.
+
 Read `CLAUDE.md`, `claude-context/ai-interaction.md`, the spec, the
 code the feature added or changed (`git diff origin/main...HEAD`), and
 the project's existing tests, if not already fresh in context. Every git
-command follows the same rule as the other actions: show the exact
-command, wait for a go-ahead. Never add a `Co-Authored-By` line for
-Claude or any AI tool.
+command is shown before it runs; in VERBOSE, wait for a go-ahead. Never
+add a `Co-Authored-By` line for Claude or any AI tool.
 
 ## Steps
 
@@ -51,6 +53,7 @@ Claude or any AI tool.
    Below the table, list in one line each what you chose not to test and
    why. Say which file the tests go in (see step 3). Don't write any
    test until the user approves; apply their changes to the plan first.
+   This stop applies in both modes.
 3. **Write the tests.** Put them where *Tests* in `CLAUDE.md` says,
    following its naming, and reuse the shared helpers and fixtures it
    names. If `CLAUDE.md` doesn't say, follow where the project's
@@ -61,8 +64,9 @@ Claude or any AI tool.
    `CLAUDE.md`, the whole suite, not only the new tests.
 
    If a test fails, find out whether the test or the feature's code is
-   wrong. Explain it in plain language, propose the fix, and wait for a
-   go-ahead. Fixing the feature's code is allowed here: it's a bug the
+   wrong. In VERBOSE, explain it in plain language, propose the fix, and
+   wait for a go-ahead. In SURF, fix it, then explain in plain language
+   what was wrong and what you changed. Fixing the feature's code is allowed here: it's a bug the
    test found. After each fix, rerun the whole suite. Keep iterating
    until everything passes. Don't change a test just to make it pass
    when the test is right.
@@ -70,7 +74,8 @@ Claude or any AI tool.
    fill in **Test results**: the counts from the last run and the new
    test file(s), e.g. `42 passed (5 new, in tests/test_password_reset.py)`.
 6. **Commit.** Run `git status`, check the file list against *Never
-   commit* in `CLAUDE.md`, then show the exact `git add -A` and commit
-   commands and wait for approval.
+   commit* in `CLAUDE.md` (a hit always stops, in both modes), then show
+   the exact `git add -A` and commit commands. In VERBOSE, wait for
+   approval; in SURF, run them.
 7. **Stop.** Tell the user the tests pass and that `/feature finalize`
    is next. Don't push or open a PR.

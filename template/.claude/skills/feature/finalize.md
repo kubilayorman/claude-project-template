@@ -30,9 +30,14 @@ tested yet. Point the user to the next step (`/feature implement` or
 `/feature test`).
 
 Read `CLAUDE.md`, `claude-context/ai-interaction.md` and
-`claude-context/project-git-workflow.md` if not already fresh in context. Every
-git and `gh` command below follows the same rule: show the exact command,
-wait for a go-ahead, one action at a time. Never push to `main`, never
+`claude-context/project-git-workflow.md` if not already fresh in context.
+Read the spec's **Mode** line and state it in one line (e.g. "Mode:
+SURF"). No **Mode** line means `VERBOSE`. See *Modes* in `SKILL.md`.
+
+Every git and `gh` command below is shown before it runs, one action at
+a time. In VERBOSE, wait for a go-ahead on each. In SURF, run them
+without waiting, except `git push` and `gh pr create`, which wait in both
+modes. Never push to `main`, never
 force-push. No commit message and no PR title or body may credit Claude
 or any AI tool: no `Co-Authored-By` line, no "Generated with Claude Code"
 line.
@@ -44,16 +49,18 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
 
 1. **Commit everything outstanding.** Run `git status` on the feature
    branch. Read the file list before staging: nothing from *Never
-   commit* in `CLAUDE.md`, no other junk. Then `git add -A` and the exact
+   commit* in `CLAUDE.md`, no other junk (a hit always stops, in both
+   modes). Then `git add -A` and the exact
    commit command. Don't continue until `git status` says the tree is
    clean.
 2. **Sync with `main`.** `git fetch`, then `git merge origin/main`. If
    there are conflicts, stop and explain them file by file; the user
-   decides, or runs `git merge --abort`.
+   decides, or runs `git merge --abort`. This stop applies in both modes.
 
    *(migrations only)* After the merge, run the single-head check from
    `CLAUDE.md`. Two latest migrations means both branches added one. To
-   fix it, explain the problem and wait for a go-ahead, then:
+   fix it, explain the problem and wait for a go-ahead (both modes),
+   then:
    - If the dev DB already ran this branch's migration, roll back to the
      migration before it first, by naming that migration (the
      roll-back-to command from `CLAUDE.md`), so the DB doesn't hold a
@@ -73,8 +80,10 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
    command under *Checks* in `CLAUDE.md`, in order, except the test
    command: tests are `/feature test`'s job.
 
-   If anything fails, explain the failure in plain language, propose the
-   fix, and wait for a go-ahead. After each fix:
+   If anything fails: in VERBOSE, explain the failure in plain language,
+   propose the fix, and wait for a go-ahead. In SURF, fix it, then
+   explain in plain language what was wrong and what you changed. After
+   each fix:
    - commit it (step 1's rules)
    - *(migrations only)* if the fix adds or changes a migration, rerun
      the single-head check from step 2
@@ -95,9 +104,10 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
    branch, compare `git diff origin/main...HEAD` with
    `docs/architecture.md` and `docs/project-phase-plan.md`, and note any
    major change for step 8.
-5. **Push.** `git push -u origin <branch>`.
+5. **Push.** Show `git push -u origin <branch>` and wait for a
+   go-ahead, in both modes.
 6. **Open the PR.** Build the title and body, show them in full, and wait
-   for a go-ahead before running `gh pr create`.
+   for a go-ahead before running `gh pr create`, in both modes.
    - **With an issue** (the spec's **Issue** line): get its title with
      `gh issue view N`. The PR title is `NN — <issue title>`, where `NN`
      is the number prefix of the branch name (e.g. `07`). The body
@@ -110,8 +120,8 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
      results from the spec's **Test results** line (from
      `/feature test`), and the spec's **How to see it working:** check
      the user ran by hand.
-7. **Return to `main`.** Show `git checkout main` and wait for a
-   go-ahead, so the next `/feature describe` starts from `main`.
+7. **Return to `main`.** Show `git checkout main` (in VERBOSE, wait for
+   a go-ahead), so the next `/feature describe` starts from `main`.
 8. **Stop.** Give the user the PR link and say it's waiting for a
    teammate to approve and merge it. If step 4 noted a major change to
    what `docs/architecture.md` or `docs/project-phase-plan.md` describe (data model, architecture, tech stack,

@@ -231,7 +231,9 @@ Tell the user, in a short list:
      `claude-context/project-git-workflow.md`. Wait until a teammate has merged
      it, then `git checkout main` and `git pull --ff-only`: until then
      `main` doesn't have the skills or `CLAUDE.md`.
-   - `/feature describe "<what you want>"` starts a new feature.
+   - `/feature describe "<what you want>"` starts a new feature. Add
+     `SURF` after `describe` for fewer approval stops; the default is
+     `VERBOSE`.
 
 <!--
 Adding setup steps later: add each one as a new numbered step before

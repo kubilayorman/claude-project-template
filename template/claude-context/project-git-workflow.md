@@ -361,6 +361,11 @@ git checkout BRANCH         # R7: back to your own branch (or stay on main)
 
 How a feature gets built with the agent (`/feature describe`, `/feature implement`, `/feature test`, `/feature finalize`), in plain language.
 
+**Two modes.** You choose one when you describe the feature, and it applies to every step of that feature:
+
+- **VERBOSE** (default): the agent asks before every command, commit and fix. Good for learning and for careful work. `/feature describe "<idea>"`
+- **SURF**: the agent runs routine commands, commits and fixes on its own, and tells you what it did. It still asks before uploading, before opening the pull request, before writing tests, and whenever it needs your decision. `/feature describe SURF "<idea>"`
+
 **1. Describe the feature**
 
 - You tell the agent what you want, often by naming a GitHub issue.
@@ -375,7 +380,7 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 - The agent checks that you're starting from the main version of the project, with nothing unsaved.
 - It gets the latest version from GitHub and creates a separate working copy for this feature, called a branch.
 - It builds the feature, explains in plain language what it changed, and tells you how to see it working. It doesn't write tests yet.
-- It saves the work, but only after you approve.
+- It saves the work, after you approve (VERBOSE) or on its own (SURF).
 - You try the feature yourself. If something doesn't work, you tell the agent and it fixes it.
 
 **3. Test the feature**
@@ -383,7 +388,7 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 - The agent picks the parts of the feature worth testing automatically, like rules, calculations and edge cases.
 - It shows you a table: what each test checks, why it matters, and an example. Nothing is written until you approve.
 - It writes the tests and runs all of the project's tests. If one fails, it explains why, proposes a fix (to the test or to the feature), and repeats until everything passes.
-- It notes the results in the plan and saves the work, but only after you approve.
+- It notes the results in the plan and saves the work, after you approve (VERBOSE) or on its own (SURF).
 
 **4. Finish the feature**
 
@@ -409,7 +414,7 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 
 **Rules throughout**
 
-- The agent shows every command before running it and waits for your OK.
+- The agent shows every command before running it. In VERBOSE mode (the default) it waits for your OK on each one. In SURF mode it only waits before uploading to GitHub, opening the pull request, and writing the tests (the test plan), plus anything that needs your decision, like conflicts.
 - Nothing is ever saved directly to the main version, except the commit that adds the template and the `/setup` files before the project is on GitHub (see Team rule 1).
 - Claude is never credited in saved work or in pull requests.
 

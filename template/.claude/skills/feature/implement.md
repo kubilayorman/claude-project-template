@@ -15,6 +15,8 @@ argument names the spec to build.
    other than `New`, stop: that feature has already been built. Tell the
    user the next step for its status (`Implemented` → `/feature test`,
    `Tested` → `/feature finalize`, `PR created` → already finalized).
+   Read the spec's **Mode** line and state it in one line (e.g. "Mode:
+   SURF"). No **Mode** line means `VERBOSE`. See *Modes* in `SKILL.md`.
 2. **Check the starting point.** Run `git status`. Every feature starts
    on `main`. If you're not on `main`, or anything besides the spec file
    is uncommitted, stop and ask the user what to do.
@@ -31,7 +33,7 @@ argument names the spec to build.
      `git checkout -b <spec slug>`. The branch name is the spec's slug,
      e.g. `12-password-reset`. If a branch with that name already
      exists, stop and tell the user: a feature is built once, on a new
-     branch. Show each command and wait for go-ahead.
+     branch. Show each command; in VERBOSE, wait for a go-ahead first.
    - Build the feature following existing code patterns in the codebase.
      Schema changes go through the migration tool, as `CLAUDE.md`
      describes under *Database migrations*.
@@ -43,8 +45,9 @@ argument names the spec to build.
    - Before the first commit, change the spec's **Status** line to
      `Implemented`, so the spec goes onto the branch marked as built.
    - Commit on the feature branch: run `git status`, check the file list
-     against *Never commit* in `CLAUDE.md`, then show the exact
-     `git add -A` and commit commands and wait for approval. Commit as
+     against *Never commit* in `CLAUDE.md` (a hit always stops, in both
+     modes), then show the exact `git add -A` and commit commands. In
+     VERBOSE, wait for approval; in SURF, run them. Commit as
      often as makes sense. Never add a `Co-Authored-By` line for Claude
      or any AI tool.
 5. Everything else in `ai-interaction.md` applies too — ask before big
