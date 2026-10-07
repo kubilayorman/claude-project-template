@@ -71,7 +71,7 @@ This is the general order we work in for any change, small or large:
    file if it's not obvious, using the plain-language style above, ending
    with the command the developer can run to see it working.
 5. **Commit.** Only after the developer has approved the exact commit
-   command.
+   command (in SURF mode, `/feature` commits without waiting).
 6. **Test.** A separate step after the build (`/feature test`): show a
    plan of the unit tests worth writing, write them after the developer
    approves it, and run them. Don't write tests while building.
@@ -103,7 +103,9 @@ differ from this section, follow them.
 - Never commit or push to `main`, never force-push. The only exception
   is the one in Team rule 1 of `claude-context/project-git-workflow.md`.
 - Always show the developer the exact git or `gh` command before running
-  it, and wait for their go-ahead.
+  it, and wait for their go-ahead. One exception: in SURF mode during a
+  `/feature` action, some commands run without waiting (see *Modes* in
+  the `/feature` skill).
 - Commit messages say what changed, e.g. `billing: retry receipt email on timeout`.
 - Never credit Claude or any AI tool in a commit message or a PR: no
   `Co-Authored-By` line, no "Generated with Claude Code" line. This

@@ -2,16 +2,26 @@
 
 ## When this runs
 
-Invoked as `/feature describe "<prompt>"` — the text after `describe` is
-the feature request, e.g. "issue #12 — let users reset their password".
+Invoked as `/feature describe [VERBOSE|SURF] "<prompt>"`, e.g.
+`/feature describe SURF "issue #12 — let users reset their password"`.
+The optional first word is the mode (see *Modes* in `SKILL.md`); without
+it, the mode is `VERBOSE`. The rest is the feature request.
 
-## Start from the latest `main`
+## Confirm the mode, then start from the latest `main`
 
 Run `git status`. If you're not on `main`, stop and ask the user what to
-do. Otherwise show `git pull --ff-only` and wait for a go-ahead, so the
-spec is planned against the team's latest code, including any PR merged
-since the last pull. If the pull fails, stop and point the user to
-*Troubleshooting* in `claude-context/project-git-workflow.md`.
+do. Otherwise, in one message, in both modes:
+
+- state the mode: "Mode: VERBOSE (default)" or "Mode: SURF", with one
+  line on what it means, and that they can reply with the other mode's
+  name to switch
+- show `git pull --ff-only`
+- ask whether to continue
+
+On a go-ahead, run the pull, so the spec is planned against the team's
+latest code, including any PR merged since the last pull. If the user
+names the other mode, use that one. If the pull fails, stop and point
+the user to *Troubleshooting* in `claude-context/project-git-workflow.md`.
 
 ## Before drafting anything, read
 
@@ -45,7 +55,7 @@ Skip re-reading files already read earlier in this same conversation.
    where `<feature-name>` is a short kebab-case slug built from the
    feature name. If the prompt names an issue, prefix the slug with the
    issue number (at least two digits, e.g. `07`, `12`, `123`) so spec, branch, and PR match (e.g.
-   `12-password-reset`). The file must contain the four header lines
+   `12-password-reset`). The file must contain the five header lines
    followed by exactly these three sections, in this order, and nothing
    else:
 
@@ -53,6 +63,7 @@ Skip re-reading files already read earlier in this same conversation.
    **Feature name:** <feature name>
    **Issue:** <#N, or "none">
    **Status:** New
+   **Mode:** <VERBOSE or SURF>
    **Test results:** not run yet
 
    # Feature functional description
@@ -65,6 +76,8 @@ Skip re-reading files already read earlier in this same conversation.
    - **Status** — always `New` here. Later actions change it:
      `/feature implement` → `Implemented`, `/feature test` → `Tested`,
      `/feature finalize` → `PR created`.
+   - **Mode** — the mode confirmed at the start. Every later action
+     reads it from here.
    - **Test results** — always `not run yet` here. `/feature test` fills
      it in.
    - **Functional description** — what the feature does and what the
@@ -85,7 +98,7 @@ Skip re-reading files already read earlier in this same conversation.
      feature goes against the design docs or the phase plan, open
      questions.
    - The lists above are guidelines for what to cover, not a checklist —
-     include what applies to this feature, skip what doesn't. The four
+     include what applies to this feature, skip what doesn't. The five
      header lines and the **How to see it working:** line are always
      required.
    - Keep it to the point: no marketing language, no filler, nothing
@@ -94,7 +107,8 @@ Skip re-reading files already read earlier in this same conversation.
    - Don't invent scope beyond the prompt — unresolved ambiguity goes
      under references as an open question, not a silent decision.
 4. **Hand it off.** Tell the user the file was saved, give a one-line
-   summary of what's in it, and tell them to review/edit it, then run
+   summary of what's in it, say which mode it carries (they can change
+   the **Mode** line), and tell them to review/edit it, then run
    `/feature implement @claude-context/<feature-name>-spec.md` when ready, with
    the actual file name filled in.
 5. **Stop.** Do not implement anything in this same turn, even if the
