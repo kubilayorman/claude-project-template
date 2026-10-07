@@ -2,8 +2,8 @@
 
 ## When this runs
 
-Invoked as `/feature finalize`, after `/feature implement` has finished
-and the user has checked the feature works. Gets the feature branch
+Invoked as `/feature finalize`, after `/feature test` has finished and
+the tests pass. It doesn't write or run tests. Gets the feature branch
 ready and opens a pull request for a teammate to approve, following
 `claude-context/project-git-workflow.md` (Part 1, steps 4–12). Branch is
 named as `CLAUDE.md` says (`NN-short-slug`, no `NN-` without an issue).
@@ -24,7 +24,10 @@ Check the current branch. If it is `main`, stop: there is no feature
 branch to finalize. The spec is `claude-context/<current-branch>-spec.md`. If
 it doesn't exist, stop and ask. If its **Status** is `PR created`, or
 `gh pr view` shows a PR already exists for this branch, stop and point
-the user to Part 2 of `claude-context/project-git-workflow.md`.
+the user to Part 2 of `claude-context/project-git-workflow.md`. If its
+**Status** is `New` or `Implemented`, stop: the feature hasn't been
+tested yet. Point the user to the next step (`/feature implement` or
+`/feature test`).
 
 Read `CLAUDE.md`, `claude-context/ai-interaction.md` and
 `claude-context/project-git-workflow.md` if not already fresh in context. Every
@@ -58,10 +61,17 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
      with two latest migrations, the tool can't tell which one is meant.
    - Make this branch's migration follow the latest one from `main`
      (e.g. its parent/`down_revision`), and commit.
+
+   If the merge brought in new commits from `main` (it didn't say
+   "Already up to date"), stop here. The tests from `/feature test` ran
+   without the team's latest work, so tell the user to run
+   `/feature test` again, then `/feature finalize` again. Don't run the
+   tests yourself.
 3. **Run the checks.** Start any local services listed under *Commands*
    in `CLAUDE.md`. *(migrations only)* Apply all migrations; if the
    branch adds a migration, roll back one and apply again. Then run every
-   command under *Checks* in `CLAUDE.md`, in order.
+   command under *Checks* in `CLAUDE.md`, in order, except the test
+   command: tests are `/feature test`'s job.
 
    If anything fails, explain the failure in plain language, propose the
    fix, and wait for a go-ahead. After each fix:
@@ -72,6 +82,13 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
 
    Keep iterating until everything passes, however many rounds it
    takes. Don't continue to step 4 until all checks pass.
+
+   *Good to know:* most fixes here only change how the code looks
+   (formatting, style), which doesn't affect the tests. If a fix changes
+   what the code does — e.g. removing a line the linter calls unused —
+   stop after committing it, and tell the user to run `/feature test`
+   again, then `/feature finalize` again, so the tests cover the
+   changed code.
 4. **Close the spec.** Change its **Status** line to `PR created`, so it
    reads as a finished feature, not a new one, and commit it. Don't edit
    the design docs or `claude-context/Project Overview/`. While still on the
@@ -89,8 +106,10 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
      *Feature name* line at the top of the spec, and the body has no
      `Closes` line.
    - Body sections: *What this adds*, *Verified locally*, *Not in this
-     PR*. *Verified locally* lists the step 3 check results and the
-     spec's **How to see it working:** check the user ran.
+     PR*. *Verified locally* lists the step 3 check results, the test
+     results from the spec's **Test results** line (from
+     `/feature test`), and the spec's **How to see it working:** check
+     the user ran by hand.
 7. **Return to `main`.** Show `git checkout main` and wait for a
    go-ahead, so the next `/feature describe` starts from `main`.
 8. **Stop.** Give the user the PR link and say it's waiting for a

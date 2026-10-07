@@ -45,7 +45,7 @@ Skip re-reading files already read earlier in this same conversation.
    where `<feature-name>` is a short kebab-case slug built from the
    feature name. If the prompt names an issue, prefix the slug with the
    issue number (at least two digits, e.g. `07`, `12`, `123`) so spec, branch, and PR match (e.g.
-   `12-password-reset`). The file must contain the three header lines
+   `12-password-reset`). The file must contain the four header lines
    followed by exactly these three sections, in this order, and nothing
    else:
 
@@ -53,6 +53,7 @@ Skip re-reading files already read earlier in this same conversation.
    **Feature name:** <feature name>
    **Issue:** <#N, or "none">
    **Status:** New
+   **Test results:** not run yet
 
    # Feature functional description
 
@@ -61,8 +62,11 @@ Skip re-reading files already read earlier in this same conversation.
    # Feature references and important notes
    ```
 
-   - **Status** — always `New` here. `/feature finalize` changes it to
-     `PR created`.
+   - **Status** — always `New` here. Later actions change it:
+     `/feature implement` → `Implemented`, `/feature test` → `Tested`,
+     `/feature finalize` → `PR created`.
+   - **Test results** — always `not run yet` here. `/feature test` fills
+     it in.
    - **Functional description** — what the feature does and what the
      user sees/does, plain sentences, no implementation detail. For
      example: the page, endpoint or command they use, and the data that
@@ -72,16 +76,16 @@ Skip re-reading files already read earlier in this same conversation.
      For example: files to create/edit, functions and signatures,
      business logic, model/schema changes and whether a migration is
      needed, commands/endpoints, config keys, dependencies to install,
-     tests to add (using the project's existing test fixtures and
-     conventions), any new technical debt the feature knowingly
-     introduces.
+     the logic worth unit testing (business rules, validation, edge
+     cases; `/feature test` writes the tests, not `/feature implement`),
+     any new technical debt the feature knowingly introduces.
    - **References and important notes** — for example: existing
      code/patterns to reuse or match, test fixtures to reuse, any
      issue-vs-docs mismatch and which side the spec follows, where the
      feature goes against the design docs or the phase plan, open
      questions.
    - The lists above are guidelines for what to cover, not a checklist —
-     include what applies to this feature, skip what doesn't. The
+     include what applies to this feature, skip what doesn't. The four
      header lines and the **How to see it working:** line are always
      required.
    - Keep it to the point: no marketing language, no filler, nothing
