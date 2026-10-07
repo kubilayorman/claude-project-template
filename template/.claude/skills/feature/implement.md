@@ -11,9 +11,10 @@ argument names the spec to build.
 1. **Find the spec.** Use the file named in the argument. If there's no
    argument, or the file doesn't exist, say so, list the files matching
    `claude-context/*-spec.md` whose **Status** is `New`, and ask which one to
-   build. Don't pick one yourself. If the spec's **Status** is
-   `PR created`, stop: that feature has already been built and
-   finalized.
+   build. Don't pick one yourself. If the spec's **Status** is anything
+   other than `New`, stop: that feature has already been built. Tell the
+   user the next step for its status (`Implemented` → `/feature test`,
+   `Tested` → `/feature finalize`, `PR created` → already finalized).
 2. **Check the starting point.** Run `git status`. Every feature starts
    on `main`. If you're not on `main`, or anything besides the spec file
    is uncommitted, stop and ask the user what to do.
@@ -34,9 +35,13 @@ argument names the spec to build.
    - Build the feature following existing code patterns in the codebase.
      Schema changes go through the migration tool, as `CLAUDE.md`
      describes under *Database migrations*.
+   - Don't write or run automated tests, even where the spec lists tests
+     to add. That's `/feature test`.
    - Explain what changed in the plain-language/junior-dev style
      `ai-interaction.md` describes, and end with the spec's **How to see
      it working:** line so the user can run it.
+   - Before the first commit, change the spec's **Status** line to
+     `Implemented`, so the spec goes onto the branch marked as built.
    - Commit on the feature branch: run `git status`, check the file list
      against *Never commit* in `CLAUDE.md`, then show the exact
      `git add -A` and commit commands and wait for approval. Commit as
@@ -45,7 +50,9 @@ argument names the spec to build.
 5. Everything else in `ai-interaction.md` applies too — ask before big
    structural decisions, don't add anything the spec didn't ask for,
    mention off-task cleanup ideas instead of doing them on the spot.
-6. **Stop after the commit.** Don't push, open a PR, or merge — that's
-   `/feature finalize`. If the user reports a problem while testing, fix
-   it on this same branch, explain the fix, and commit it with the same
-   rules. Don't push.
+6. **Stop after the commit.** Don't write tests, push, open a PR, or
+   merge — that's `/feature test`, then `/feature finalize`. If the user
+   reports a problem while trying the feature by hand, fix it on this
+   same branch, explain the fix, and commit it with the same rules.
+   Don't push. When the user is happy with it, tell them `/feature test`
+   is next.

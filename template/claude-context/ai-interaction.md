@@ -72,7 +72,10 @@ This is the general order we work in for any change, small or large:
    with the command the developer can run to see it working.
 5. **Commit.** Only after the developer has approved the exact commit
    command.
-6. **Ship.** Checks, push, and open a PR for a teammate to review, as in
+6. **Test.** A separate step after the build (`/feature test`): show a
+   plan of the unit tests worth writing, write them after the developer
+   approves it, and run them. Don't write tests while building.
+7. **Ship.** Checks, push, and open a PR for a teammate to review, as in
    `claude-context/project-git-workflow.md`.
 
 Anything you notice along the way that isn't part of the current task —

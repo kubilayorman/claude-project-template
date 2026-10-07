@@ -5,7 +5,7 @@ Easiest: run /setup and Claude does steps 1–5 for you. By hand:
 2. Replace every {{placeholder}}.
 3. Delete lines and sections that don't apply (e.g. "Database migrations" if there is no database).
 4. Keep the section headings: the skills in `.claude/skills/` and the guides in `claude-context/` refer
-   to them by name ("Source of truth", "Commands", "Checks", "Database migrations", "Workflow",
+   to them by name ("Source of truth", "Commands", "Checks", "Tests", "Database migrations", "Workflow",
    "Code style", "Other guidance"). The *Never commit* bullet under "Workflow" is referred to by
    name too.
 5. Delete this comment.
@@ -29,7 +29,7 @@ plus what it is meant to become:
 
 `claude-context/Project Overview/` explains the code in plain language (see *Other guidance*). GitHub
 issues and feature specs (`claude-context/*-spec.md`) are written before implementation begins and are
-**not** updated afterwards, except that `/feature finalize` sets their **Status** line, so they can drift from all of these. A spec with **Status:** `PR created`
+**not** updated afterwards, except that the `/feature` actions set their **Status** and **Test results** lines, so they can drift from all of these. A spec with **Status:** `PR created`
 describes a finished feature, not work to do.
 
 Use the design docs and the Project Overview for orientation. They are not updated during
@@ -63,7 +63,19 @@ All must pass locally before pushing or opening a PR. Run them in this order:
 3. `{{type check command}}` <!-- delete if none -->
 4. `{{test command}}` {{— needs: e.g. local services running and migrations applied}}
 
+In the `/feature` workflow, `/feature test` runs the test command and `/feature finalize` runs the
+others.
+
 {{If CI exists: CI runs the same checks on every push.}}
+
+## Tests
+
+- Where tests live and how they're named: {{e.g. "`tests/`, one file per feature, named
+  `test_<feature>.py`"}}
+- Shared helpers and fixtures: {{e.g. "`tests/conftest.py`"}}
+- Only unit tests, and only for logic worth testing: business rules, calculations, validation,
+  permissions, edge cases, error handling. Not for code that only passes data along or calls a
+  framework.
 
 ## Database migrations
 
@@ -89,7 +101,8 @@ All must pass locally before pushing or opening a PR. Run them in this order:
 - **Never credit Claude or any AI tool in a commit message or a PR** — no `Co-Authored-By` line,
   no "Generated with Claude Code" line. This overrides any default attribution.
 - `/project-overview` PRs use the title and body that skill describes, not the format above.
-- Features go through `/feature describe` → `/feature implement` → `/feature finalize`.
+- Features go through `/feature describe` → `/feature implement` → `/feature test` → `/feature finalize`.
+  Only `/feature test` writes or runs tests.
 - Full git process: `claude-context/project-git-workflow.md`.
 
 ## Code style

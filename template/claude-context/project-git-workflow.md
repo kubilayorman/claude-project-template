@@ -25,7 +25,7 @@ For a plain-language summary of building a feature with the agent, see [Simplifi
 | **GitHub** | Where the shared project is stored online. |
 | **pull request (PR)** | A request on GitHub asking the team to review your branch before it's merged into main. |
 | **BRANCH** | Placeholder in this file. Replace it with your branch name, `NN-short-slug` as `CLAUDE.md` names it, for example `12-password-reset`, or `short-slug` when there's no issue. |
-| **the checks** | The commands listed in `CLAUDE.md` under *Checks* (plus applying migrations first, if the project has a database). Run them exactly as listed there. |
+| **the checks** | The commands listed in `CLAUDE.md` under *Checks* (plus applying migrations first, if the project has a database), tests included. Run them exactly as listed there. In Part 1 with the agent, `/feature test` runs the tests and `/feature finalize` the rest (see step 10). |
 | **NUMBER** | Placeholder for a pull request's number, shown by `gh pr list`. |
 | **OWNER/REPO** | Placeholder for the project's GitHub path, for example `my-org/my-app`. |
 
@@ -128,9 +128,38 @@ flowchart TD
 | 7 | Sync | `git fetch` | BRANCH → BRANCH | Downloads information about what's new on GitHub and updates origin/main. Your files and your local main don't change. | Step 8 merges from origin/main, so it has to be up to date first. |
 | 8 | Sync | `git merge origin/main` | BRANCH → BRANCH | Adds the changes from GitHub's main into your branch. Your local main is not touched. | Your branch then contains your work plus your team's latest work. If you and a teammate changed the same lines, Git shows a conflict so you fix it on your branch, not on main. After fixing, run `git add -A` and `git commit`. If the project has a database, run the single-head check from `CLAUDE.md`. If it shows two latest migrations, fix it as `/feature finalize` step 2 describes. |
 | 9 | Sync *(only if needed)* | `git merge --abort` | BRANCH → BRANCH | Cancels the merge and returns your branch to how it was before step 8. | Use it if a conflict gets confusing. Nothing is lost, and you can try step 8 again. |
-| 10 | Sync | *Run the checks* (see `CLAUDE.md`) | BRANCH → BRANCH | Checks that the project works with both your changes and your team's. | Changes that work separately can still break when combined. Don't continue until this passes. |
+| 10 | Sync | *Run the checks* (see `CLAUDE.md`) | BRANCH → BRANCH | Checks that the project works with both your changes and your team's. With the agent, this is split: `/feature test` runs the tests, `/feature finalize` runs the other checks. If step 8 brought in new work, `/feature finalize` stops so you run `/feature test` again first. | Changes that work separately can still break when combined. Don't continue until this passes. |
 | 11 | Share | `git push -u origin BRANCH` | BRANCH → BRANCH | Uploads your branch to GitHub. `-u` links your local branch to the GitHub copy, so later you can just type `git push`. | Your team can only review what's on GitHub. This does not change main. |
 | 12 | Share | `gh pr create` | BRANCH → BRANCH | Opens a pull request on GitHub with a title and a description of your changes. | Asks your team to review your branch before it goes into main. Comments and approval happen there. Share the link with your team. |
+
+**With the agent**, the `/feature` actions run these steps for you:
+
+| Action | Steps | Tests? |
+|---|---|---|
+| `/feature describe` | 1–2, then writes the spec | No |
+| `/feature implement` | 2–6 | No |
+| `/feature test` | writes and runs the tests, then 4–6 | Yes, the only one |
+| `/feature finalize` | 4–12, with step 10's tests left to `/feature test` | No |
+
+Steps 4–6 are "save your work", so every action that changes files repeats them. Each action also has its own kind of check:
+
+| Action | What changes in the files | Its "checks" | Saves with steps 4–6? |
+|---|---|---|---|
+| `/feature implement` | The feature's code | None, you try it by hand | Yes |
+| `/feature test` | New test files, plus bug fixes if a test finds one | **Unit tests** (the whole test suite) | Yes |
+| `/feature finalize` | Small fixes, e.g. formatting or style, plus the spec's status line | **Format, lint, type checks**, everything except the tests | Yes |
+
+Steps 7–12 (sync with `main`, check, push, open the PR) happen only once, in `/feature finalize`.
+
+**Example: building "password reset"**
+
+1. **Implement** writes the reset code and commits it (steps 2–6). You try it by hand and the email arrives.
+2. **Test** writes 5 unit tests and runs all 42 tests. One fails because expired links are accepted. It fixes the code, reruns the tests (all pass) and commits (steps 4–6).
+3. **Finalize** pulls in the team's latest work (steps 7–8). Then one of two things happens:
+   - **Nothing new on `main`:** it runs format, lint and type checks, which make up step 10 without the tests. The formatter fixes one line, finalize commits, pushes and opens the PR (steps 11–12).
+   - **A teammate's work came in:** it stops, because the 42 tests passed on code that didn't include your teammate's changes. You run `/feature test` again, then `/feature finalize` again.
+
+So step 10, "run the checks", is split in two: the tests ran in `/feature test`, and finalize runs everything else. If a finalize fix changes what the code does, not just how it looks, finalize also sends you back to `/feature test`.
 
 **Part 1 ends here.** Your work on the feature is done once the PR is open. From here:
 
@@ -330,7 +359,7 @@ git checkout BRANCH         # R7: back to your own branch (or stay on main)
 
 ## Simplified process description
 
-How a feature gets built with the agent (`/feature describe`, `/feature implement`, `/feature finalize`), in plain language.
+How a feature gets built with the agent (`/feature describe`, `/feature implement`, `/feature test`, `/feature finalize`), in plain language.
 
 **1. Describe the feature**
 
@@ -345,27 +374,34 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 - You tell the agent which plan to build.
 - The agent checks that you're starting from the main version of the project, with nothing unsaved.
 - It gets the latest version from GitHub and creates a separate working copy for this feature, called a branch.
-- It builds the feature, explains in plain language what it changed, and tells you how to see it working.
+- It builds the feature, explains in plain language what it changed, and tells you how to see it working. It doesn't write tests yet.
 - It saves the work, but only after you approve.
 - You try the feature yourself. If something doesn't work, you tell the agent and it fixes it.
 
-**3. Finish the feature**
+**3. Test the feature**
+
+- The agent picks the parts of the feature worth testing automatically, like rules, calculations and edge cases.
+- It shows you a table: what each test checks, why it matters, and an example. Nothing is written until you approve.
+- It writes the tests and runs all of the project's tests. If one fails, it explains why, proposes a fix (to the test or to the feature), and repeats until everything passes.
+- It notes the results in the plan and saves the work, but only after you approve.
+
+**4. Finish the feature**
 
 - The agent saves anything left over.
-- It brings in any new work your teammates added to GitHub, and checks that nothing clashes.
-- It runs the project's automatic checks. If any fail, it explains why, proposes a fix, and repeats until everything passes.
+- It brings in any new work your teammates added to GitHub, and checks that nothing clashes. If new work came in, it sends you back to step 3 to run the tests again.
+- It runs the project's other automatic checks, like code style. It doesn't run the tests. If a check fails, it explains why, proposes a fix, and repeats until everything passes.
 - It marks the plan as done ("PR created"), so it isn't mistaken for a new feature later.
 - It uploads the branch to GitHub and opens a pull request asking a teammate to review it.
 - It switches you back to the main version. Your part of the feature is now done.
 - If the feature changed something major in the project's design, it gives you a short summary.
 
-**4. Review and merge, done by a teammate**
+**5. Review and merge, done by a teammate**
 
 - The reviewer checks the work and runs the same checks.
 - If it's good, the reviewer approves it and adds it to the main version.
 - If changes are needed, the reviewer asks for them on GitHub.
 
-**5. Make the requested changes (only if the reviewer asks for them)**
+**6. Make the requested changes (only if the reviewer asks for them)**
 
 - You switch back to the feature's branch and make the changes.
 - You run the checks again and upload the changes. The pull request updates automatically.

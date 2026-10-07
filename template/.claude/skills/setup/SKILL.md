@@ -72,7 +72,8 @@ the existing `CLAUDE.md`, `docs/architecture.md` and
 `README.md`, dependency files (`package.json`, `pyproject.toml`,
 `requirements.txt`, `Gemfile`, `go.mod`, …), CI settings
 (`.github/workflows/`), `docker-compose.yml`, the database schema and
-migration folders, the main source folders, `.gitignore`. Don't change
+migration folders, the main source folders, the test folders and their
+shared helpers (for *Tests* in `CLAUDE.md`), `.gitignore`. Don't change
 anything yet.
 
 Note how much the project already does beyond its starter files. This
