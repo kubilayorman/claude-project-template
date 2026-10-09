@@ -68,9 +68,30 @@ Skip re-reading files already read earlier in this same conversation.
 
    # Feature functional description
 
+   **In short:** <one sentence a non-developer can follow>
+
+   <plain sentences on what the feature does>
+
+   **Key terms:**
+   - `<term>`: <one-line plain meaning>
+
+   **How to see it working:**
+   1. <step>, then <what you should see>
+
    # Feature technical requirements
 
+   ### <path/to/file> (new | edit)
+   *Why:* <one line, plain words>
+   - <one instruction per bullet>
+
+   ### Tests
+   *Why:* <one line, plain words>
+   - <behavior to test>
+
    # Feature references and important notes
+
+   **Decisions:**
+   - <choice>: <why, and alternatives rejected>
    ```
 
    - **Status** — always `New` here. Later actions change it:
@@ -84,8 +105,15 @@ Skip re-reading files already read earlier in this same conversation.
    - **Functional description** — what the feature does and what the
      user sees/does, plain sentences, no implementation detail. For
      example: the page, endpoint or command they use, and the data that
-     gets saved. Always end it with a **How to see it working:** line:
-     the steps to run and what the result should look like.
+     gets saved.
+     - Open with an **In short:** line: one sentence a non-developer can
+       follow.
+     - When a project term (config key, flag, model field, issue number)
+       has to appear, explain it in the same sentence or list it under
+       **Key terms:** (optional, 3–6 entries, `term`: one-line plain
+       meaning).
+     - Always end it with a **How to see it working:** line: numbered
+       steps to run, each with what the result should look like.
    - **Technical requirements** — concrete, bullet points, not prose.
      For example: files to create/edit, functions and signatures,
      business logic, model/schema changes and whether a migration is
@@ -93,18 +121,37 @@ Skip re-reading files already read earlier in this same conversation.
      the logic worth unit testing (business rules, validation, edge
      cases; `/feature test` writes the tests, not `/feature implement`),
      any new technical debt the feature knowingly introduces.
-   - **References and important notes** — for example: existing
-     code/patterns to reuse or match, test fixtures to reuse, any
-     issue-vs-docs mismatch and which side the spec follows, where the
-     feature goes against the design docs or the phase plan, open
-     questions.
+     - Group the bullets under `###` subheadings, one per file or area.
+       Dependencies, migrations and tests get their own subheading when
+       present.
+     - Start each group with one `*Why:*` line: what the change is for,
+       in plain words a junior developer can follow.
+     - One instruction per bullet. Keep signatures, exact error
+       messages, constants and edge cases precise. Put code in code
+       spans, and longer signatures in fenced blocks.
+   - **References and important notes** — under these labels, using
+     only the ones that apply:
+     - **Decisions:** choices made while drafting, each with its reason
+       and any alternatives rejected.
+     - **Out of scope:** what's left out, and where it's handled
+       instead.
+     - **Reuse:** existing code, patterns or test fixtures to reuse or
+       match, with their paths.
+     - **Issue/docs mismatches:** any issue-vs-docs mismatch and which
+       side the spec follows, or where the feature goes against the
+       design docs or the phase plan.
+     - **Open questions.**
+   - State each fact once. A technical bullet refers to a decision
+     ("see Decisions") instead of repeating its reasoning.
    - The lists above are guidelines for what to cover, not a checklist —
      include what applies to this feature, skip what doesn't. The five
-     header lines and the **How to see it working:** line are always
-     required.
+     header lines, the **In short:** line and the **How to see it
+     working:** line are always required.
    - Keep it to the point: no marketing language, no filler, nothing
-     obvious from the code restated. Written for an agent to execute, not
-     a human to be sold on.
+     obvious from the code restated. Written for an agent to execute;
+     the **In short:**, *Why:* and **Key terms:** lines make it readable
+     for a junior developer. Those lines only explain, they never add
+     instructions.
    - Don't invent scope beyond the prompt — unresolved ambiguity goes
      under references as an open question, not a silent decision.
 4. **Hand it off.** Tell the user the file was saved, give a one-line
