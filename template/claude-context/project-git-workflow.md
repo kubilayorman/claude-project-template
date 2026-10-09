@@ -33,7 +33,7 @@ For a plain-language summary of building a feature with the agent, see [Simplifi
 
 ## Team rules
 
-1. **Never commit or push directly to main.** All work happens on a branch. One exception: the commit that adds the template and the `/setup` files, made before the project is on GitHub. Updates to `claude-context/Project Overview/` made with `/project-overview` go through a PR like any other change.
+1. **Never commit or push directly to main.** All work happens on a branch. One exception: the commit that adds the template and the `/setup` files, made before the project is on GitHub. Documentation updates made with `/professorslughorn` (the design docs, `CLAUDE.md` and `claude-context/Project Overview/`) go through a PR like any other change.
 2. **One branch per feature.** Your work on a feature is finished when you open its pull request (step 12). After that, you only go back to the branch if the reviewer requests changes (Part 2). Never reuse a branch for another feature. Every new feature starts at step 1 with a new branch.
 3. **Never force-push** (`git push --force` or `-f`).
 4. **Every PR needs approval from a teammate** before it's merged.
@@ -411,6 +411,12 @@ How a feature gets built with the agent (`/feature describe`, `/feature implemen
 - You switch back to the feature's branch and make the changes.
 - You run the checks again and upload the changes. The pull request updates automatically.
 - The reviewer looks again. Repeat until they approve and merge.
+
+**7. Update the documentation (after features are merged)**
+
+- From the main version, with no pull requests open, you run `/professorslughorn`.
+- The agent finds the merged features the documentation doesn't cover yet, shows you the changes it wants to make to the design and to `CLAUDE.md`, and waits for your OK.
+- It updates the documentation, marks those features' plans as "Documented", and opens one pull request for a teammate to review.
 
 **Rules throughout**
 

@@ -19,7 +19,7 @@ If it doesn't exist, stop and ask. Then look at its **Status**:
 - `Tested` → the tests are already written (e.g. `/feature finalize`
   sent the user back here after bringing in teammates' changes). Skip to
   step 4 and run them, unless the user asks for more tests.
-- `PR created` → stop and point the user to Part 2 of
+- `PR created` or `Documented` → stop and point the user to Part 2 of
   `claude-context/project-git-workflow.md`.
 
 Read the spec's **Mode** line and state it in one line (e.g. "Mode:

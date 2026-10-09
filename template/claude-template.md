@@ -29,11 +29,14 @@ plus what it is meant to become:
 
 `claude-context/Project Overview/` explains the code in plain language (see *Other guidance*). GitHub
 issues and feature specs (`claude-context/*-spec.md`) are written before implementation begins and are
-**not** updated afterwards, except that the `/feature` actions set their **Status** and **Test results** lines, so they can drift from all of these. A spec with **Status:** `PR created`
-describes a finished feature, not work to do.
+**not** updated afterwards, except that the `/feature` actions set their **Status** and **Test results** lines
+(and `/professorslughorn` sets **Status** to `Documented`), so they can drift from all of these. A spec with
+**Status:** `PR created` describes a finished feature, not work to do. A spec with **Status:** `Documented`
+describes a finished feature whose changes are already in the design docs and the Project Overview.
 
 Use the design docs and the Project Overview for orientation. They are not updated during
-feature work, so the code will move ahead of them. Where they differ from the code, or a feature
+feature work, so the code will move ahead of them. `/professorslughorn` brings them, and `CLAUDE.md`
+where needed, up to date from `main` after features are merged. Where they differ from the code, or a feature
 goes against them, the code wins. Misunderstandings are cleared up with the developer during
 `/feature describe`; once `/feature implement` starts, don't stop because of them. `/feature finalize` sums up any major changes the
 feature made to what `docs/architecture.md` and `docs/project-phase-plan.md` describe.
@@ -100,7 +103,8 @@ others.
   build output}}.
 - **Never credit Claude or any AI tool in a commit message or a PR** — no `Co-Authored-By` line,
   no "Generated with Claude Code" line. This overrides any default attribution.
-- `/project-overview` PRs use the title and body that skill describes, not the format above.
+- `/professorslughorn` PRs (`Documentation update YYYY-MM-DD`) use the title and body that skill
+  describes, not the format above.
 - Features go through `/feature describe` → `/feature implement` → `/feature test` → `/feature finalize`.
   `/feature describe SURF "<prompt>"` runs the feature with fewer approval stops; the default is
   `VERBOSE` (see *Modes* in the `/feature` skill).
@@ -117,7 +121,7 @@ others.
 - `claude-context/ai-interaction.md` — how the agent works with the developer: communication, explaining,
   showing git commands before running them.
 - `claude-context/Project Overview/` — plain-language overview of the project, files and database, for
-  orientation. Updated only when the developer runs `/project-overview`, so it can lag behind the
+  orientation. Updated only when the developer runs `/professorslughorn`, so it can lag behind the
   code. That runs from an up-to-date `main` with no open PRs, and its changes go through their
   own PR. Where it disagrees with the code, the code wins (see *Source of truth*). Never update
   it as part of a feature.
