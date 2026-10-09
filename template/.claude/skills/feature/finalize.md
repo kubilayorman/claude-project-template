@@ -22,7 +22,8 @@ That is an exception, not part of this command: it follows Part 2
 
 Check the current branch. If it is `main`, stop: there is no feature
 branch to finalize. The spec is `claude-context/<current-branch>-spec.md`. If
-it doesn't exist, stop and ask. If its **Status** is `PR created`, or
+it doesn't exist, stop and ask. If its **Status** is `PR created` or
+`Documented`, or
 `gh pr view` shows a PR already exists for this branch, stop and point
 the user to Part 2 of `claude-context/project-git-workflow.md`. If its
 **Status** is `New` or `Implemented`, stop: the feature hasn't been
@@ -126,7 +127,8 @@ Steps marked *(migrations only)* apply only if `CLAUDE.md` has a
    teammate to approve and merge it. If step 4 noted a major change to
    what `docs/architecture.md` or `docs/project-phase-plan.md` describe (data model, architecture, tech stack,
    phase scope), add a short, to-the-point summary of it. Otherwise
-   leave it out. Only if the reviewer requests
+   leave it out. Once the PR is merged, `/professorslughorn` brings the
+   feature's changes into the documentation. Only if the reviewer requests
    changes: those go on this same branch, by hand, following Part 2 of
    `claude-context/project-git-workflow.md`. Don't merge, and don't delete the
    branch.

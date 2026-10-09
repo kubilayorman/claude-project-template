@@ -1,7 +1,7 @@
 <!--
 TEMPLATE — layout for docs/architecture.md
 Used by /setup. Fill every {{placeholder}} from the user's confirmed answers and the code.
-- Keep the section headings: /project-overview reads this file and maps its sections onto
+- Keep the section headings: /professorslughorn reads and updates this file and maps its sections onto
   PROJECT_OVERVIEW.md and DATABASE_OVERVIEW.md.
 - Use the users' own business words for entities and steps. Names chosen here are the names used
   in code, the database and every later doc. If the code already names an entity, use the code's
@@ -69,7 +69,7 @@ erDiagram
 
 {{One sentence: what the main flow achieves.}}
 
-<!-- The main successful path only. /project-overview reuses these step numbers. -->
+<!-- The main successful path only. /professorslughorn reuses these step numbers. -->
 
 1. **{{Step name}}:** {{Who does what, and which entities are created, read, changed or deleted.}}
 2. **{{Step name}}:** {{...}}

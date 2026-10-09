@@ -19,7 +19,10 @@ the request, the code and these docs that the code doesn't settle, so the spec s
 `/feature implement` starts, don't stop or flag differences from these
 docs, even when a feature goes against them: the code and the spec win.
 `/feature finalize` sums up any major changes the feature made to what
-`docs/architecture.md` and `docs/project-phase-plan.md` describe.
+`docs/architecture.md` and `docs/project-phase-plan.md` describe. After
+features are merged, `/professorslughorn` brings these docs, the Project
+Overview and, where needed, `CLAUDE.md` up to date from `main`, and marks
+the merged specs `Documented`.
 
 Implementation is done feature by feature, which the developer has
 control over.

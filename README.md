@@ -10,7 +10,7 @@ Everything in [`template/`](template/) is copied into your project's root folder
 - **`.claude/skills/`**: three slash commands that do the heavy lifting:
   - `/setup` learns about your app through a short interview, then writes `CLAUDE.md`, `docs/architecture.md` and `docs/project-phase-plan.md`.
   - `/feature describe`, `/feature implement`, `/feature test` and `/feature finalize` take an idea from spec to finished code to tested code to pull request. Pick `VERBOSE` (default, approve every step) or `SURF` (fewer stops) when you start: `/feature describe SURF "<your idea>"`.
-  - `/project-overview` writes plain-language docs for non-technical and technical teammates alike, so everyone stays in the loop. 🤝
+  - `/professorslughorn` keeps all the documentation up to date after features are merged: the design docs, `CLAUDE.md` when needed, and plain-language docs for non-technical and technical teammates alike, so everyone stays in the loop. It marks each merged feature's spec as `Documented`, so the next run knows what's new. 🤝
 - **`claude-context/`**: guidelines for how Claude works and a simple git workflow for your team. Your feature specs and Project Overview docs live here too.
 
 ## Getting started ✨
@@ -36,7 +36,7 @@ Everything in [`template/`](template/) is copied into your project's root folder
 The install command skips files your project already has, so delete the old template files first, then run it again:
 
 ```bash
-rm -rf .claude/skills/setup .claude/skills/feature .claude/skills/project-overview
+rm -rf .claude/skills/setup .claude/skills/feature .claude/skills/professorslughorn .claude/skills/project-overview
 rm -f claude-context/ai-interaction.md claude-context/project-git-workflow.md
 ```
 

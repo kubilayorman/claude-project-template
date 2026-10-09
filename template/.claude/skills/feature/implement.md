@@ -14,7 +14,8 @@ argument names the spec to build.
    build. Don't pick one yourself. If the spec's **Status** is anything
    other than `New`, stop: that feature has already been built. Tell the
    user the next step for its status (`Implemented` → `/feature test`,
-   `Tested` → `/feature finalize`, `PR created` → already finalized).
+   `Tested` → `/feature finalize`, `PR created` or `Documented` → already
+   finalized).
    Read the spec's **Mode** line and state it in one line (e.g. "Mode:
    SURF"). No **Mode** line means `VERBOSE`. See *Modes* in `SKILL.md`.
 2. **Check the starting point.** Run `git status`. Every feature starts

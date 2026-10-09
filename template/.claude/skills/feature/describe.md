@@ -75,7 +75,8 @@ Skip re-reading files already read earlier in this same conversation.
 
    - **Status** — always `New` here. Later actions change it:
      `/feature implement` → `Implemented`, `/feature test` → `Tested`,
-     `/feature finalize` → `PR created`.
+     `/feature finalize` → `PR created`, and after the merge
+     `/professorslughorn` → `Documented`.
    - **Mode** — the mode confirmed at the start. Every later action
      reads it from here.
    - **Test results** — always `not run yet` here. `/feature test` fills

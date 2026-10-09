@@ -38,14 +38,19 @@ runs again if `finalize` sends the user back to it).
 
 Only `/feature test` writes or runs automated tests. The spec's
 **Status** line tracks where a feature is: `New` (describe) →
-`Implemented` (implement) → `Tested` (test) → `PR created` (finalize). Never skip ahead
+`Implemented` (implement) → `Tested` (test) → `PR created` (finalize) →
+`Documented`. `Documented` isn't set by a `/feature` action: `/professorslughorn`
+sets it after the PR is merged, once the feature's changes are in the
+documentation. Never skip ahead
 to a later action just because the conversation sounds ready for it —
 each one only starts from its own explicit `/feature ...` invocation.
 
 The developer's workflow ends when `/feature finalize` opens the PR.
 Approval and merging happen on GitHub, by the reviewer. If the reviewer
 requests changes instead, that is not a `/feature` action: it follows
-Part 2 of `claude-context/project-git-workflow.md`.
+Part 2 of `claude-context/project-git-workflow.md`. After merging, the
+developer runs `/professorslughorn` from `main` to bring the
+documentation up to date.
 
 ## Modes
 
