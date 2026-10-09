@@ -27,7 +27,9 @@ argument names the spec to build.
    spec touches. The code is always the source of truth. Read
    `docs/architecture.md` and `claude-context/Project Overview/` for
    orientation if useful; both can lag behind the code. Don't stop
-   because they differ from the code or the spec.
+   because they differ from the code or the spec. If the feature adds
+   or changes anything the user sees, open every image in
+   `claude-context/ui-prototypes/` (there are only a few).
 4. **Build it**, following `ai-interaction.md`'s workflow:
    - Branch first, from an up-to-date `main` (steps 2–3 of
      `claude-context/project-git-workflow.md`): `git pull --ff-only`, then
@@ -38,10 +40,18 @@ argument names the spec to build.
    - Build the feature following existing code patterns in the codebase.
      Schema changes go through the migration tool, as `CLAUDE.md`
      describes under *Database migrations*.
+   - UI follows the screenshots in `claude-context/ui-prototypes/` as
+     closely as reasonable, without copying them pixel for pixel. A
+     screen with a matching screenshot (the spec names it, or its file
+     name matches) follows that one. Every other screen takes its look
+     from all of them together. If matching a screenshot would need a new
+     dependency or a big structural change, ask first.
    - Don't write or run automated tests, even where the spec lists tests
      to add. That's `/feature test`.
    - Explain what changed in the plain-language/junior-dev style
-     `ai-interaction.md` describes, and end with the spec's **How to see
+     `ai-interaction.md` describes, with one line on how each new or
+     changed screen follows the screenshots and any deliberate
+     difference, and end with the spec's **How to see
      it working:** line so the user can run it.
    - Before the first commit, change the spec's **Status** line to
      `Implemented`, so the spec goes onto the branch marked as built.

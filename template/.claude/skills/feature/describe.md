@@ -36,6 +36,9 @@ the user to *Troubleshooting* in `claude-context/project-git-workflow.md`.
 4. The relevant source and test files, plus the migrations folder from
    `CLAUDE.md` if the feature touches the database — so the spec fits
    what already exists instead of reinventing it.
+5. The images in `claude-context/ui-prototypes/`, if the feature adds or
+   changes anything the user sees. There are only a few: open them all.
+   They are blueprints for the app's look, not exact designs.
 
 Skip re-reading files already read earlier in this same conversation.
 
@@ -45,7 +48,8 @@ Skip re-reading files already read earlier in this same conversation.
    model fields, commands, endpoints or screens, config keys, which part
    of the architecture it belongs to, whether it needs a schema change),
    ask before drafting. If the issue and the design docs disagree and
-   the code doesn't settle it, ask. Ask only what actually
+   the code doesn't settle it, ask. If it's unclear whether a screenshot
+   in `ui-prototypes/` is meant for this feature's screen, ask. Ask only what actually
    changes the spec — no padding.
 2. **Name the feature.** If the prompt names an issue, the feature name
    is the issue title (`gh issue view N`). Otherwise pick the most
@@ -136,7 +140,11 @@ Skip re-reading files already read earlier in this same conversation.
      - **Out of scope:** what's left out, and where it's handled
        instead.
      - **Reuse:** existing code, patterns or test fixtures to reuse or
-       match, with their paths.
+       match, with their paths. If a screenshot in `ui-prototypes/` is
+       named after the screen this feature builds, mention it here by
+       name (e.g. "Login page follows `login-page.png` in
+       `ui-prototypes/`"). Don't list screenshots that don't match, and
+       don't describe the image: `/feature implement` looks at it.
      - **Issue/docs mismatches:** any issue-vs-docs mismatch and which
        side the spec follows, or where the feature goes against the
        design docs or the phase plan.

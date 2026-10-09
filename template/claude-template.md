@@ -41,6 +41,11 @@ goes against them, the code wins. Misunderstandings are cleared up with the deve
 `/feature describe`; once `/feature implement` starts, don't stop because of them. `/feature finalize` sums up any major changes the
 feature made to what `docs/architecture.md` and `docs/project-phase-plan.md` describe.
 
+The screenshots in `claude-context/ui-prototypes/`, if any, are blueprints for how the app looks. UI work
+follows them as closely as reasonable, without copying them pixel for pixel. A screenshot named after a
+screen guides that screen; together they set the look of every other screen. The code still wins for
+behavior.
+
 When picking up an issue:
 
 1. Read the code it touches and the design docs first, then the issue.
@@ -125,3 +130,5 @@ others.
   code. That runs from an up-to-date `main` with no open PRs, and its changes go through their
   own PR. Where it disagrees with the code, the code wins (see *Source of truth*). Never update
   it as part of a feature.
+- `claude-context/ui-prototypes/` — a few screenshots or wireframes that UI work follows as blueprints
+  (see *Source of truth*). Added by the developer; never changed by a `/feature` action.
