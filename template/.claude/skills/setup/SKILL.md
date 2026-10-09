@@ -73,8 +73,9 @@ the existing `CLAUDE.md`, `docs/architecture.md` and
 `requirements.txt`, `Gemfile`, `go.mod`, …), CI settings
 (`.github/workflows/`), `docker-compose.yml`, the database schema and
 migration folders, the main source folders, the test folders and their
-shared helpers (for *Tests* in `CLAUDE.md`), `.gitignore`. Don't change
-anything yet.
+shared helpers (for *Tests* in `CLAUDE.md`), `.gitignore`. Look at any
+images in `claude-context/ui-prototypes/` too: they can suggest answers
+about screens, users and the core flow. Don't change anything yet.
 
 Note how much the project already does beyond its starter files. This
 decides how much weight the code carries in the interview.
@@ -126,7 +127,9 @@ existing docs show one, so the user can reply "yes".
 **Round 3: Shape and scope**
 
 7. Where will people use it: in a web browser, as a phone app, both, or
-   only as an API or script?
+   only as an API or script? (If it has screens: a few mockups or
+   screenshots can go in `claude-context/ui-prototypes/` at any time,
+   and features that touch the UI will follow them.)
 8. Does it need outside services, such as payments, email or SMS, maps,
    AI, or sign-in with Google?
 9. What phase is the project in now, and what must that phase include?
@@ -219,7 +222,10 @@ Tell the user, in a short list:
    unanswered, so they can add them later.
 6. That `claude-template.md` isn't needed any more: delete it now, before
    committing. Don't delete it yourself.
-7. What to do next:
+7. If the app has screens: that 1–4 screenshots or wireframes in
+   `claude-context/ui-prototypes/` will guide how features look. Say
+   which ones are there already, if any.
+8. What to do next:
    - After deleting `claude-template.md`, commit everything before
      anything else; `/feature implement` stops if anything besides a
      spec is uncommitted. If the project
